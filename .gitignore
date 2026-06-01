@@ -5,5 +5,3 @@
 # Optional but recommended: Ignore compiled build outputs
 **/build/
 **/dist/
-EcoApp/EcoApp-ejb/nbproject/private/private.properties
-EcoApp/EcoApp-ejb/nbproject/private/private.properties
