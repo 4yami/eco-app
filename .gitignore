@@ -1,1 +1,7 @@
-**/nbproject/private
+# Ignore user-specific private settings
+**/nbproject/private/
+**/nbproject/private.properties
+
+# Optional but recommended: Ignore compiled build outputs
+**/build/
+**/dist/
