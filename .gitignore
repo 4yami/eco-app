@@ -1,0 +1,53 @@
+# Ignore user-specific private settings
+**/nbproject/private/
+**/nbproject/private.properties
+
+# Optional but recommended: Ignore compiled build outputs
+**/build/
+**/dist/
+
+# NetBeans project private and generated files
+nbproject/private/
+nbproject/private.properties
+nbproject/genfiles.properties
+
+# Module build outputs
+EcoApp-ejb/build/
+EcoApp-war/build/
+
+# Java compiled classes and archives
+*.class
+*.jar
+*.war
+*.ear
+
+# Generated sources and annotation-processor output
+**/generated-sources/
+**/ap-source-output/
+
+# Common IDE files
+/.project
+/.classpath
+/.settings/
+*.iml
+.idea/
+
+# macOS / Windows junk
+.DS_Store
+Thumbs.db
+
+# Logs, temp, swap
+*.log
+*.tmp
+*.swp
+*~
+
+# Local environment files
+.env
+
+# Misc
+*.db
+*.sqlite
+
+# CopyLibs (if you don't want vendored libs checked in)
+lib/CopyLibs/

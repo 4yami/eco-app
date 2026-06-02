@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateItemTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateItemLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{itemController.selected.id}" title="#{bundle.CreateItemTitle_id}" required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_id}"/>
+                    <h:outputLabel value="#{bundle.CreateItemLabel_title}" for="title" />
+                    <h:inputText id="title" value="#{itemController.selected.title}" title="#{bundle.CreateItemTitle_title}" required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_title}"/>
+                    <h:outputLabel value="#{bundle.CreateItemLabel_description}" for="description" />
+                    <h:inputText id="description" value="#{itemController.selected.description}" title="#{bundle.CreateItemTitle_description}" />
+                    <h:outputLabel value="#{bundle.CreateItemLabel_price}" for="price" />
+                    <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.CreateItemTitle_price}" required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_price}"/>
+                    <h:outputLabel value="#{bundle.CreateItemLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.CreateItemTitle_status}" required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_status}"/>
+                    <h:outputLabel value="#{bundle.CreateItemLabel_imageUrl}" for="imageUrl" />
+                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.CreateItemTitle_imageUrl}" />
+                    <h:outputLabel value="#{bundle.CreateItemLabel_sellerId}" for="sellerId" />
+                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.CreateItemTitle_sellerId}" >
+                        <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.CreateItemLabel_categoryId}" for="categoryId" />
+                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" title="#{bundle.CreateItemTitle_categoryId}" >
+                        <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{itemController.create}" value="#{bundle.CreateItemSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{itemController.prepareList}" value="#{bundle.CreateItemShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateItemIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
