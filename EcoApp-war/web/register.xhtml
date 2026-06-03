@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create an Account</title>
+    </h:head>
+    <h:body>
+        <div class="register-container" style="margin: 50px auto; width: 350px;">
+            <h:form id="registerForm">
+                <h2>Register New Account</h2>
+                
+                <h:messages style="color: red;" />
+
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel for="fullName" value="Full Name:" />
+                    <h:inputText id="fullName" value="#{registerBean.fullName}" 
+                                 required="true" requiredMessage="Full name is required." />
+
+                    <h:outputLabel for="email" value="Email Address:" />
+                    <h:inputText id="email" value="#{registerBean.email}" 
+                                 required="true" requiredMessage="Email is required.">
+                        <f:validateRegex pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
+                    </h:inputText>
+                    
+                    <h:outputLabel for="username" value="Username:" />
+                    <h:inputText id="username" value="#{registerBean.username}" 
+                                 required="true" requiredMessage="Username is required." />
+                    
+                    <h:outputLabel for="password" value="Password:" />
+                    <h:inputSecret id="password" value="#{registerBean.password}" 
+                                   required="true" requiredMessage="Password is required.">
+                        <f:validateLength minimum="6" />
+                    </h:inputSecret>
+                </h:panelGrid>
+                
+                <br />
+                <h:commandButton value="Sign Up" action="#{registerBean.register}" style="width: 100%;" />
+                
+                <p>Already registered? <h:link outcome="login" value="Back to Login" /></p>
+            </h:form>
+        </div>
+    </h:body>
+</html>
