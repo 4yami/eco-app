@@ -42,5 +42,18 @@ public class AppUserFacade extends AbstractFacade<AppUser> {
             return null;
         }
     }
+
+    public AppUser findByEmail(String email) {
+        if (email == null) {
+            return null;
+        }
+        TypedQuery<AppUser> query = em.createNamedQuery("AppUser.findByEmail", AppUser.class);
+        query.setParameter("email", email);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
      
 }

@@ -8,6 +8,8 @@ import entity.Role;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,5 +29,18 @@ public class RoleFacade extends AbstractFacade<Role> {
     public RoleFacade() {
         super(Role.class);
     }
-    
+
+    public Role findByRoleName(String roleName) {
+        if (roleName == null) {
+            return null;
+        }
+        TypedQuery<Role> query = em.createNamedQuery("Role.findByRoleName", Role.class);
+        query.setParameter("roleName", roleName);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+     
 }

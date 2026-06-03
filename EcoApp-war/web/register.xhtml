@@ -15,10 +15,6 @@
                 <h:messages style="color: red;" />
 
                 <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="fullName" value="Full Name:" />
-                    <h:inputText id="fullName" value="#{registerBean.fullName}" 
-                                 required="true" requiredMessage="Full name is required." />
-
                     <h:outputLabel for="email" value="Email Address:" />
                     <h:inputText id="email" value="#{registerBean.email}" 
                                  required="true" requiredMessage="Email is required.">
@@ -34,6 +30,12 @@
                                    required="true" requiredMessage="Password is required.">
                         <f:validateLength minimum="6" />
                     </h:inputSecret>
+
+                    <h:outputLabel for="phone" value="Phone:" />
+                    <h:inputText id="phone" value="#{registerBean.phone}"
+                                 required="true" requiredMessage="Phone is required.">
+                        <f:validateLength minimum="7" maximum="20" />
+                    </h:inputText>
                 </h:panelGrid>
                 
                 <br />
