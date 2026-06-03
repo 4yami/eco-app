@@ -8,6 +8,8 @@ import entity.AppUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -27,5 +29,18 @@ public class AppUserFacade extends AbstractFacade<AppUser> {
     public AppUserFacade() {
         super(AppUser.class);
     }
-    
+
+    public AppUser findByUsername(String username) {
+        if (username == null) {
+            return null;
+        }
+        TypedQuery<AppUser> query = em.createNamedQuery("AppUser.findByUsername", AppUser.class);
+        query.setParameter("username", username);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
+     
 }

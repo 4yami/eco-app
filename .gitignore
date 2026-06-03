@@ -48,6 +48,7 @@ Thumbs.db
 # Misc
 *.db
 *.sqlite
+*.opencode
 
 # CopyLibs (if you don't want vendored libs checked in)
 lib/CopyLibs/
