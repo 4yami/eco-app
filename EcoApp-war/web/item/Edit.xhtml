@@ -19,7 +19,7 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditItemLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{itemController.selected.id}" title="#{bundle.EditItemTitle_id}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_id}"/>
+                    <h:outputText id="id" value="#{itemController.selected.id}" />
                     <h:outputLabel value="#{bundle.EditItemLabel_title}" for="title" />
                     <h:inputText id="title" value="#{itemController.selected.title}" title="#{bundle.EditItemTitle_title}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_title}"/>
                     <h:outputLabel value="#{bundle.EditItemLabel_description}" for="description" />
@@ -30,8 +30,8 @@
                     <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.EditItemTitle_status}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_status}"/>
                     <h:outputLabel value="#{bundle.EditItemLabel_imageUrl}" for="imageUrl" />
                     <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.EditItemTitle_imageUrl}" />
-                    <h:outputLabel value="#{bundle.EditItemLabel_sellerId}" for="sellerId" />
-                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_sellerId}" >
+                    <h:outputLabel value="#{bundle.EditItemLabel_sellerId}" for="sellerId" rendered="#{loginBean.admin}" />
+                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_sellerId}" rendered="#{loginBean.admin}">
                         <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="#{bundle.EditItemLabel_categoryId}" for="categoryId" />
@@ -45,9 +45,7 @@
                 <h:link outcome="View" value="#{bundle.EditItemViewLink}"/>
                 <br />
                 <h:commandLink action="#{itemController.prepareList}" value="#{bundle.EditItemShowAllLink}" immediate="true"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.EditItemIndexLink}" />
+                
             </h:form>
         </ui:define>
     </ui:composition>

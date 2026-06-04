@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package session;
 
 import entity.Item;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-/**
- *
- * @author syahm
- */
 @Stateless
 public class ItemFacade extends AbstractFacade<Item> {
 
@@ -27,5 +21,27 @@ public class ItemFacade extends AbstractFacade<Item> {
     public ItemFacade() {
         super(Item.class);
     }
-    
+
+    public List<Item> findBySellerId(Integer sellerId, int start, int max) {
+        TypedQuery<Item> query = em.createQuery(
+            "SELECT i FROM Item i WHERE i.sellerId.id = :sellerId ORDER BY i.id DESC", Item.class);
+        query.setParameter("sellerId", sellerId);
+        query.setFirstResult(start);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public List<Item> findRecent(int max) {
+        TypedQuery<Item> query = em.createQuery(
+            "SELECT i FROM Item i WHERE i.status = 'AVAILABLE' ORDER BY i.id DESC", Item.class);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public int countBySellerId(Integer sellerId) {
+        javax.persistence.Query query = em.createQuery(
+            "SELECT COUNT(i) FROM Item i WHERE i.sellerId.id = :sellerId");
+        query.setParameter("sellerId", sellerId);
+        return ((Long) query.getSingleResult()).intValue();
+    }
 }

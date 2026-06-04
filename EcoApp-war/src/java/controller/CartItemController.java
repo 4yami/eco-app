@@ -1,14 +1,19 @@
 package controller;
 
 import entity.CartItem;
+import entity.CartItemPK;
+import entity.Item;
 import controller.util.JsfUtil;
 import controller.util.PaginationHelper;
 import session.CartItemFacade;
+import session.ItemFacade;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.inject.Inject;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,8 +31,13 @@ public class CartItemController implements Serializable {
     private DataModel items = null;
     @EJB
     private session.CartItemFacade ejbFacade;
+    @EJB
+    private ItemFacade itemFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
+
+    @Inject
+    private LoginController loginBean;
 
     public CartItemController() {
     }
@@ -47,18 +57,30 @@ public class CartItemController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
-
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
+            if (loginBean != null && loginBean.isLoggedIn()) {
+                Integer userId = loginBean.getLoggedInUser().getId();
+                pagination = new PaginationHelper(10) {
+                    @Override
+                    public int getItemsCount() {
+                        return getFacade().countByUserId(userId);
+                    }
+                    @Override
+                    public DataModel createPageDataModel() {
+                        return new ListDataModel(getFacade().findByUserId(userId, getPageFirstItem(), getPageSize()));
+                    }
+                };
+            } else {
+                pagination = new PaginationHelper(10) {
+                    @Override
+                    public int getItemsCount() {
+                        return getFacade().count();
+                    }
+                    @Override
+                    public DataModel createPageDataModel() {
+                        return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    }
+                };
+            }
         }
         return pagination;
     }
@@ -129,7 +151,6 @@ public class CartItemController implements Serializable {
         if (selectedItemIndex >= 0) {
             return "View";
         } else {
-            // all items were removed - go back to list
             recreateModel();
             return "List";
         }
@@ -147,9 +168,7 @@ public class CartItemController implements Serializable {
     private void updateCurrentItem() {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
             if (pagination.getPageFirstItem() >= count) {
                 pagination.previousPage();
             }
@@ -196,6 +215,72 @@ public class CartItemController implements Serializable {
 
     public CartItem getCartItem(entity.CartItemPK id) {
         return ejbFacade.find(id);
+    }
+
+    // Buy Now action
+    public String buyItem(Item item) {
+        if (loginBean == null || !loginBean.isLoggedIn() || loginBean.isAdmin()) {
+            JsfUtil.addErrorMessage("You must be logged in as a regular user to purchase items.");
+            return null;
+        }
+        if (!"AVAILABLE".equals(item.getStatus())) {
+            JsfUtil.addErrorMessage("This item is no longer available.");
+            return null;
+        }
+        if (item.getSellerId() != null && item.getSellerId().getId().equals(loginBean.getLoggedInUser().getId())) {
+            JsfUtil.addErrorMessage("You cannot purchase your own item.");
+            return null;
+        }
+
+        // Check if already purchased
+        CartItemPK pk = new CartItemPK(loginBean.getLoggedInUser().getId(), item.getId());
+        if (ejbFacade.find(pk) != null) {
+            JsfUtil.addErrorMessage("You have already purchased this item.");
+            return null;
+        }
+
+        try {
+            CartItem cartItem = new CartItem();
+            cartItem.setCartItemPK(pk);
+            cartItem.setAppUser(loginBean.getLoggedInUser());
+            cartItem.setItem(item);
+            cartItem.setDateAdded(new Date());
+
+            ejbFacade.create(cartItem);
+
+            item.setStatus("IN_CART");
+            itemFacade.edit(item);
+
+            JsfUtil.addSuccessMessage("Item purchased successfully!");
+            return null;
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Purchase failed.");
+            return null;
+        }
+    }
+
+    // Cancel purchase - resets item status to AVAILABLE and removes cart entry
+    public String cancelPurchase(CartItem cartItem) {
+        if (cartItem == null || cartItem.getItem() == null) {
+            JsfUtil.addErrorMessage("Invalid cart item.");
+            return null;
+        }
+
+        try {
+            Item item = cartItem.getItem();
+            item.setStatus("AVAILABLE");
+            itemFacade.edit(item);
+
+            ejbFacade.remove(cartItem);
+
+            JsfUtil.addSuccessMessage("Purchase cancelled. Item is now available again.");
+            recreateModel();
+            recreatePagination();
+            return "List";
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Failed to cancel purchase.");
+            return null;
+        }
     }
 
     @FacesConverter(forClass = CartItem.class)

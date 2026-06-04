@@ -354,6 +354,130 @@ br {
     display: none;
 }
 
+/* ===== Homepage (Logged In) ===== */
+.home-logged-in {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.home-welcome h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0;
+}
+
+.home-action-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+}
+
+.home-action-card {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 220px;
+    min-width: 200px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 20px 16px;
+    text-align: center;
+    text-decoration: none !important;
+    transition: transform 0.12s, box-shadow 0.12s;
+    border: 1px solid #e4efe4;
+}
+
+.home-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border-color: #b5d6b5;
+}
+
+.home-action-icon {
+    font-size: 1.8rem;
+    margin-bottom: 6px;
+}
+
+.home-action-label {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #2d6a2d;
+    margin-bottom: 4px;
+}
+
+.home-action-desc {
+    font-size: 0.8rem;
+    color: #6a8a6a;
+}
+
+.home-recent-section h3 {
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #d4e4d4;
+}
+
+.home-empty {
+    color: #6a8a6a;
+    font-style: italic;
+}
+
+.home-item-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.home-item-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+    border: 1px solid #e4efe4;
+    transition: box-shadow 0.12s;
+}
+
+.home-item-card:hover {
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+}
+
+.home-item-info {
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f7f0;
+}
+
+.home-item-noimg {
+    color: #aac0aa;
+    font-size: 0.85rem;
+}
+
+.home-item-details {
+    padding: 10px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.home-item-title {
+    font-size: 0.95rem;
+    color: #2d3a2d;
+}
+
+.home-item-price {
+    font-size: 0.9rem;
+    color: #2d6a2d;
+    font-weight: 600;
+}
+
+.home-item-seller {
+    font-size: 0.8rem;
+    color: #7a9a7a;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .nav-inner {

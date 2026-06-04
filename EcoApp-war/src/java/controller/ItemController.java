@@ -6,9 +6,11 @@ import controller.util.PaginationHelper;
 import session.ItemFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.inject.Inject;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -29,6 +31,11 @@ public class ItemController implements Serializable {
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
+    @Inject
+    private LoginController loginBean;
+
+    private boolean myItemsMode;
+
     public ItemController() {
     }
 
@@ -46,25 +53,45 @@ public class ItemController implements Serializable {
 
     public PaginationHelper getPagination() {
         if (pagination == null) {
-            pagination = new PaginationHelper(10) {
-
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
+            if (myItemsMode && loginBean != null && loginBean.isLoggedIn()) {
+                Integer sellerId = loginBean.getLoggedInUser().getId();
+                pagination = new PaginationHelper(10) {
+                    @Override
+                    public int getItemsCount() {
+                        return getFacade().countBySellerId(sellerId);
+                    }
+                    @Override
+                    public DataModel createPageDataModel() {
+                        return new ListDataModel(getFacade().findBySellerId(sellerId, getPageFirstItem(), getPageSize()));
+                    }
+                };
+            } else {
+                pagination = new PaginationHelper(10) {
+                    @Override
+                    public int getItemsCount() {
+                        return getFacade().count();
+                    }
+                    @Override
+                    public DataModel createPageDataModel() {
+                        return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                    }
+                };
+            }
         }
         return pagination;
     }
 
     public String prepareList() {
+        myItemsMode = false;
         recreateModel();
         return "List";
+    }
+
+    public String prepareMyItems() {
+        myItemsMode = true;
+        recreateModel();
+        recreatePagination();
+        return "MyList";
     }
 
     public String prepareView() {
@@ -81,6 +108,12 @@ public class ItemController implements Serializable {
 
     public String create() {
         try {
+            if (current.getSellerId() == null && loginBean != null && loginBean.isLoggedIn() && !loginBean.isAdmin()) {
+                current.setSellerId(loginBean.getLoggedInUser());
+            }
+            if (current.getStatus() == null) {
+                current.setStatus("AVAILABLE");
+            }
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("ItemCreated"));
             return prepareCreate();
@@ -123,7 +156,6 @@ public class ItemController implements Serializable {
         if (selectedItemIndex >= 0) {
             return "View";
         } else {
-            // all items were removed - go back to list
             recreateModel();
             return "List";
         }
@@ -141,9 +173,7 @@ public class ItemController implements Serializable {
     private void updateCurrentItem() {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
-            // selected index cannot be bigger than number of items:
             selectedItemIndex = count - 1;
-            // go to previous page if last page disappeared:
             if (pagination.getPageFirstItem() >= count) {
                 pagination.previousPage();
             }
@@ -190,6 +220,25 @@ public class ItemController implements Serializable {
 
     public Item getItem(java.lang.Integer id) {
         return ejbFacade.find(id);
+    }
+
+    public List<Item> getRecentItems() {
+        return getFacade().findRecent(6);
+    }
+
+    public void resetListMode() {
+        myItemsMode = false;
+        recreateModel();
+    }
+
+    public void enterMyItemsMode() {
+        myItemsMode = true;
+        recreateModel();
+        recreatePagination();
+    }
+
+    public boolean isMyItemsMode() {
+        return myItemsMode;
     }
 
     @FacesConverter(forClass = Item.class)

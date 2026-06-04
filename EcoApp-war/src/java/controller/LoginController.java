@@ -35,7 +35,7 @@ public class LoginController implements Serializable {
         }
 
         loggedInUser = user;
-        return "/index.xhtml?faces-redirect=true";
+        return "/public.xhtml?faces-redirect=true";
     }
 
     public String logout() {

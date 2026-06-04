@@ -1,18 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package session;
 
 import entity.CartItem;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-/**
- *
- * @author syahm
- */
 @Stateless
 public class CartItemFacade extends AbstractFacade<CartItem> {
 
@@ -27,5 +21,19 @@ public class CartItemFacade extends AbstractFacade<CartItem> {
     public CartItemFacade() {
         super(CartItem.class);
     }
-    
+
+    public List<CartItem> findByUserId(Integer userId, int start, int max) {
+        TypedQuery<CartItem> query = em.createNamedQuery("CartItem.findByUserId", CartItem.class);
+        query.setParameter("userId", userId);
+        query.setFirstResult(start);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public int countByUserId(Integer userId) {
+        javax.persistence.Query query = em.createQuery(
+            "SELECT COUNT(c) FROM CartItem c WHERE c.cartItemPK.userId = :userId");
+        query.setParameter("userId", userId);
+        return ((Long) query.getSingleResult()).intValue();
+    }
 }

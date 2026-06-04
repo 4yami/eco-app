@@ -10,14 +10,14 @@
             <f:viewAction action="#{loginBean.requireLogin}" />
         </f:metadata>
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListCartItemTitle}"></h:outputText>
+            <h:outputText value="My Purchases"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListCartItemEmpty}" rendered="#{cartItemController.items.rowCount == 0}"/>
+                <h:outputText escape="false" value="You haven't purchased any items yet." rendered="#{cartItemController.items.rowCount == 0}"/>
                 <h:panelGroup rendered="#{cartItemController.items.rowCount > 0}">
                     <h:outputText value="#{cartItemController.pagination.pageFirstItem + 1}..#{cartItemController.pagination.pageLastItem + 1}/#{cartItemController.pagination.itemsCount}"/>&nbsp;
                     <h:commandLink action="#{cartItemController.previous}" value="#{bundle.Previous} #{cartItemController.pagination.pageSize}" rendered="#{cartItemController.pagination.hasPreviousPage}"/>&nbsp;
@@ -25,7 +25,7 @@
                     <h:dataTable value="#{cartItemController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCartItemTitle_dateAdded}"/>
+                                <h:outputText value="Date Purchased"/>
                             </f:facet>
                             <h:outputText value="#{item.dateAdded}">
                                 <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
@@ -33,33 +33,33 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCartItemTitle_appUser}"/>
+                                <h:outputText value="Item"/>
                             </f:facet>
-                            <h:outputText value="#{item.appUser}"/>
+                            <h:outputText value="#{item.item.title}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListCartItemTitle_item}"/>
+                                <h:outputText value="Seller"/>
                             </f:facet>
-                            <h:outputText value="#{item.item}"/>
+                            <h:outputText value="#{item.item.sellerId.username}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Status"/>
+                            </f:facet>
+                            <h:outputText value="#{item.item.status}" />
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{cartItemController.prepareView}" value="#{bundle.ListCartItemViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{cartItemController.prepareEdit}" value="#{bundle.ListCartItemEditLink}" rendered="#{loginBean.loggedIn}"/>
-                            <h:outputText value=" " rendered="#{loginBean.loggedIn}"/>
-                            <h:commandLink action="#{cartItemController.destroy}" value="#{bundle.ListCartItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
+                            <h:commandButton value="Cancel Purchase" action="#{cartItemController.cancelPurchase(item)}"
+                                rendered="#{item.item.status == 'IN_CART'}"
+                                styleClass="btn" />
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{cartItemController.prepareCreate}" value="#{bundle.ListCartItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListCartItemIndexLink}"/>
+                
             </h:form>
         </ui:define>
     </ui:composition>

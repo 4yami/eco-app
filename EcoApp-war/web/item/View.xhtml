@@ -26,24 +26,29 @@
                     <h:outputText value="#{bundle.ViewItemLabel_status}"/>
                     <h:outputText value="#{itemController.selected.status}" title="#{bundle.ViewItemTitle_status}"/>
                     <h:outputText value="#{bundle.ViewItemLabel_imageUrl}"/>
-                    <h:outputText value="#{itemController.selected.imageUrl}" title="#{bundle.ViewItemTitle_imageUrl}"/>
+                    <h:graphicImage value="#{itemController.selected.imageUrl}" width="300" style="max-width: 100%; border-radius: 6px;" rendered="#{not empty itemController.selected.imageUrl}" />
                     <h:outputText value="#{bundle.ViewItemLabel_sellerId}"/>
-                    <h:outputText value="#{itemController.selected.sellerId}" title="#{bundle.ViewItemTitle_sellerId}"/>
+                    <h:outputText value="#{itemController.selected.sellerId.username}" title="#{bundle.ViewItemTitle_sellerId}"/>
                     <h:outputText value="#{bundle.ViewItemLabel_categoryId}"/>
-                    <h:outputText value="#{itemController.selected.categoryId}" title="#{bundle.ViewItemTitle_categoryId}"/>
+                    <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_categoryId}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{itemController.destroyAndView}" value="#{bundle.ViewItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
+                <h:commandButton value="Buy Now" action="#{cartItemController.buyItem(itemController.selected)}"
+                    rendered="#{loginBean.loggedIn and !loginBean.admin and itemController.selected.status == 'AVAILABLE'}"
+                    styleClass="btn" />
+                <h:outputText value=" (Sold)" rendered="#{itemController.selected.status != 'AVAILABLE'}" style="color: #c62828; font-weight: bold;" />
+                <br /><br />
+                <h:commandLink action="#{itemController.destroyAndView}" value="#{bundle.ViewItemDestroyLink}"
+                    rendered="#{loginBean.admin or (loginBean.loggedIn and itemController.selected.sellerId.id == loginBean.loggedInUser.id)}" />
                 <br />
                 <br />
-                <h:link outcome="Edit" value="#{bundle.ViewItemEditLink}" rendered="#{loginBean.loggedIn}"/>
+                <h:link outcome="Edit" value="#{bundle.ViewItemEditLink}"
+                    rendered="#{loginBean.admin or (loginBean.loggedIn and itemController.selected.sellerId.id == loginBean.loggedInUser.id)}" />
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ViewItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
+                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ViewItemCreateLink}" rendered="#{loginBean.loggedIn}" />
                 <br />
                 <h:commandLink action="#{itemController.prepareList}" value="#{bundle.ViewItemShowAllLink}"/>
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ViewItemIndexLink}"/>
+                
 
             </h:form>
         </ui:define>

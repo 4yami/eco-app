@@ -179,7 +179,7 @@ public class AppUser implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.AppUser[ id=" + id + " ]";
+        return username != null ? username : "entity.AppUser[ id=" + id + " ]";
     }
     
 }

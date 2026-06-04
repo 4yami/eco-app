@@ -2,19 +2,67 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/template.xhtml">
-        <ui:define name="title">Eco App</ui:define>
+        <ui:define name="title">Eco App - Campus Marketplace</ui:define>
         <ui:define name="body">
+
             <div class="hero-card">
-                <h1>Eco App</h1>
-                <p>Eco App helps you discover campus items, reuse goods, and connect with sellers. Browse what is available now, then create an account to list items or save to cart.</p>
-                <div class="hero-links">
-                    <h:link outcome="/login" value="Login" styleClass="btn" />
-                    <h:link outcome="/register" value="Register" styleClass="btn btn-outline" />
-                    <h:link outcome="/item/List" value="Browse items" styleClass="btn btn-outline" />
-                </div>
+                <h1>Welcome to Eco App</h1>
+                <p>Discover campus items, reuse goods, and connect with sellers. Browse what is available now, then create an account to list items or make a purchase.</p>
             </div>
+
+            <div class="home-action-grid">
+                <h:link outcome="/item/List" styleClass="home-action-card">
+                    <span class="home-action-icon">&#128230;</span>
+                    <span class="home-action-label">Browse Items</span>
+                    <span class="home-action-desc">View all available items</span>
+                </h:link>
+                <h:link outcome="/item/Create" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                    <span class="home-action-icon">&#128221;</span>
+                    <span class="home-action-label">List an Item</span>
+                    <span class="home-action-desc">Sell something you no longer need</span>
+                </h:link>
+                <h:link outcome="/item/MyList" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                    <span class="home-action-icon">&#128188;</span>
+                    <span class="home-action-label">My Items</span>
+                    <span class="home-action-desc">Manage your listings</span>
+                </h:link>
+                <h:link outcome="/cartItem/List" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                    <span class="home-action-icon">&#128722;</span>
+                    <span class="home-action-label">My Purchases</span>
+                    <span class="home-action-desc">View purchase history</span>
+                </h:link>
+            </div>
+
+            <div class="home-recent-section">
+                <h3>Recent Items</h3>
+                <ui:fragment rendered="#{empty itemController.recentItems}">
+                    <p class="home-empty">No items listed yet.</p>
+                </ui:fragment>
+                <ui:fragment rendered="#{not empty itemController.recentItems}">
+                    <div class="home-item-grid">
+                        <ui:repeat value="#{itemController.recentItems}" var="item">
+                            <div class="home-item-card">
+                                <h:graphicImage value="#{item.imageUrl}" width="100%" height="130"
+                                    style="object-fit: cover; border-radius: 8px 8px 0 0; display: block;"
+                                    rendered="#{not empty item.imageUrl}" />
+                                <h:panelGroup styleClass="home-item-info"
+                                    rendered="#{empty item.imageUrl}">
+                                    <span class="home-item-noimg">No Image</span>
+                                </h:panelGroup>
+                                <div class="home-item-details">
+                                    <strong class="home-item-title">#{item.title}</strong>
+                                    <span class="home-item-price">$#{item.price}</span>
+                                    <span class="home-item-seller">by #{item.sellerId.username}</span>
+                                </div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </ui:fragment>
+            </div>
+
         </ui:define>
     </ui:composition>
 </html>
