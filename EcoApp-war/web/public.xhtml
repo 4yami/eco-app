@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">Eco App</ui:define>
+        <ui:define name="body">
+            <div class="hero-card">
+                <h1>Eco App</h1>
+                <p>Eco App helps you discover campus items, reuse goods, and connect with sellers. Browse what is available now, then create an account to list items or save to cart.</p>
+                <div class="hero-links">
+                    <h:link outcome="/login" value="Login" styleClass="btn" />
+                    <h:link outcome="/register" value="Register" styleClass="btn btn-outline" />
+                    <h:link outcome="/item/List" value="Browse items" styleClass="btn btn-outline" />
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

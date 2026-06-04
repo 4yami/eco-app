@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.requireLogin}" />
+        </f:metadata>
         <ui:define name="title">
             <h:outputText value="#{bundle.ListCartItemTitle}"></h:outputText>
         </ui:define>
@@ -46,14 +49,14 @@
                             </f:facet>
                             <h:commandLink action="#{cartItemController.prepareView}" value="#{bundle.ListCartItemViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{cartItemController.prepareEdit}" value="#{bundle.ListCartItemEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{cartItemController.destroy}" value="#{bundle.ListCartItemDestroyLink}"/>
+                            <h:commandLink action="#{cartItemController.prepareEdit}" value="#{bundle.ListCartItemEditLink}" rendered="#{loginBean.loggedIn}"/>
+                            <h:outputText value=" " rendered="#{loginBean.loggedIn}"/>
+                            <h:commandLink action="#{cartItemController.destroy}" value="#{bundle.ListCartItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{cartItemController.prepareCreate}" value="#{bundle.ListCartItemCreateLink}"/>
+                <h:commandLink action="#{cartItemController.prepareCreate}" value="#{bundle.ListCartItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListCartItemIndexLink}"/>

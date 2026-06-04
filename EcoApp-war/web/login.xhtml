@@ -2,33 +2,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head>
-        <title>Account Login</title>
-        </h:head>
-    <h:body>
-        <div class="login-container" style="margin: 50px auto; width: 300px;">
-            <h:form id="loginForm">
-                <h2>Login to Your Account</h2>
-                
-                <h:messages globalOnly="true" style="color: red;" />
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">Account Login</ui:define>
+        <ui:define name="body">
+            <div class="form-card">
+                <h:form id="loginForm">
+                    <h2>Login to Your Account</h2>
 
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel for="username" value="Username:" />
-                    <h:inputText id="username" value="#{loginBean.username}" 
-                                 required="true" requiredMessage="Username is required." />
-                    
-                    <h:outputLabel for="password" value="Password:" />
-                    <h:inputSecret id="password" value="#{loginBean.password}" 
-                                   required="true" requiredMessage="Password is required." />
-                </h:panelGrid>
-                
-                <br />
-                <h:commandButton value="Login" action="#{loginBean.login}" style="width: 100%;" />
-                
-                <p>Don't have an account? <h:link outcome="register" value="Register here" /></p>
-            </h:form>
-        </div>
-    </h:body>
+                    <div class="messages">
+                        <h:messages globalOnly="true" infoClass="info" errorClass="error" />
+                    </div>
+
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="panel-grid-form">
+                        <h:outputLabel for="username" value="Username:" />
+                        <h:inputText id="username" value="#{loginBean.username}" 
+                                     required="true" requiredMessage="Username is required." />
+
+                        <h:outputLabel for="password" value="Password:" />
+                        <h:inputSecret id="password" value="#{loginBean.password}" 
+                                       required="true" requiredMessage="Password is required." />
+                    </h:panelGrid>
+
+                    <br />
+                    <h:commandButton value="Login" action="#{loginBean.login}" styleClass="btn btn-full" />
+
+                    <p style="margin-top: 16px; text-align: center;">
+                        Don't have an account? <h:link outcome="register" value="Register here" />
+                    </p>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
 </html>

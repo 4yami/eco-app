@@ -74,14 +74,14 @@
                             </f:facet>
                             <h:commandLink action="#{itemController.prepareView}" value="#{bundle.ListItemViewLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{itemController.prepareEdit}" value="#{bundle.ListItemEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}"/>
+                            <h:commandLink action="#{itemController.prepareEdit}" value="#{bundle.ListItemEditLink}" rendered="#{loginBean.loggedIn}"/>
+                            <h:outputText value=" " rendered="#{loginBean.loggedIn}"/>
+                            <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}"/>
+                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListItemIndexLink}"/>

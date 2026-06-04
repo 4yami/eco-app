@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.requireAdmin}" />
+        </f:metadata>
         <ui:define name="title">
             <h:outputText value="#{bundle.ListRoleTitle}"></h:outputText>
         </ui:define>
@@ -36,16 +39,16 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{roleController.prepareView}" value="#{bundle.ListRoleViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{roleController.prepareEdit}" value="#{bundle.ListRoleEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{roleController.destroy}" value="#{bundle.ListRoleDestroyLink}"/>
+                            <h:commandLink action="#{roleController.prepareView}" value="#{bundle.ListRoleViewLink}" rendered="#{loginBean.admin}"/>
+                            <h:outputText value=" " rendered="#{loginBean.admin}"/>
+                            <h:commandLink action="#{roleController.prepareEdit}" value="#{bundle.ListRoleEditLink}" rendered="#{loginBean.admin}"/>
+                            <h:outputText value=" " rendered="#{loginBean.admin}"/>
+                            <h:commandLink action="#{roleController.destroy}" value="#{bundle.ListRoleDestroyLink}" rendered="#{loginBean.admin}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{roleController.prepareCreate}" value="#{bundle.ListRoleCreateLink}"/>
+                <h:commandLink action="#{roleController.prepareCreate}" value="#{bundle.ListRoleCreateLink}" rendered="#{loginBean.admin}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListRoleIndexLink}"/>

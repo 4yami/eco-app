@@ -9,6 +9,7 @@ import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import java.io.IOException;
 
 @Named("loginBean")
 @SessionScoped
@@ -47,6 +48,40 @@ public class LoginController implements Serializable {
 
     public boolean isLoggedIn() {
         return loggedInUser != null;
+    }
+
+    public boolean isAdmin() {
+        if (loggedInUser == null || loggedInUser.getRoleId() == null) {
+            return false;
+        }
+        String roleName = loggedInUser.getRoleId().getRoleName();
+        return roleName != null && roleName.equals("ADMIN");
+    }
+
+    public void requireLogin() {
+        if (!isLoggedIn()) {
+            redirectTo("/login.xhtml");
+        }
+    }
+
+    public void requireAdmin() {
+        if (!isAdmin()) {
+            redirectTo("/index.xhtml");
+        }
+    }
+
+    private void redirectTo(String viewPath) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context == null || context.getExternalContext() == null) {
+            return;
+        }
+        String contextPath = context.getExternalContext().getRequestContextPath();
+        try {
+            context.getExternalContext().redirect(contextPath + "/faces" + viewPath);
+            context.responseComplete();
+        } catch (IOException ex) {
+            JsfUtil.addErrorMessage("Unable to redirect.");
+        }
     }
 
     public AppUser getLoggedInUser() {

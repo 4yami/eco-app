@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.requireAdmin}" />
+        </f:metadata>
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewAppUserTitle}"></h:outputText>
         </ui:define>
@@ -29,12 +32,12 @@
                     <h:outputText value="#{appUserController.selected.roleId}" title="#{bundle.ViewAppUserTitle_roleId}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{appUserController.destroyAndView}" value="#{bundle.ViewAppUserDestroyLink}"/>
+                <h:commandLink action="#{appUserController.destroyAndView}" value="#{bundle.ViewAppUserDestroyLink}" rendered="#{loginBean.admin}"/>
                 <br />
                 <br />
-                <h:link outcome="Edit" value="#{bundle.ViewAppUserEditLink}"/>
+                <h:link outcome="Edit" value="#{bundle.ViewAppUserEditLink}" rendered="#{loginBean.admin}"/>
                 <br />
-                <h:commandLink action="#{appUserController.prepareCreate}" value="#{bundle.ViewAppUserCreateLink}" />
+                <h:commandLink action="#{appUserController.prepareCreate}" value="#{bundle.ViewAppUserCreateLink}" rendered="#{loginBean.admin}"/>
                 <br />
                 <h:commandLink action="#{appUserController.prepareList}" value="#{bundle.ViewAppUserShowAllLink}"/>
                 <br />

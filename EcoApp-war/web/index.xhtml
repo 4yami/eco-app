@@ -1,29 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Eco App</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
-    </h:head>
-    <h:body>
-        <h:link outcome="/login" value="Login"/>
-        <br />
-        <h:link outcome="/register" value="Register"/>
-        <br />
-        <h:link outcome="/appUser/List" value="Show All AppUser Items"/>
-        <br />
-        <h:link outcome="/cartItem/List" value="Show All CartItem Items"/>
-        <br />
-        <h:link outcome="/category/List" value="Show All Category Items"/>
-        <br />
-        <h:link outcome="/item/List" value="Show All Item Items"/>
-        <br />
-        <h:link outcome="/role/List" value="Show All Role Items"/>
-    </h:body>
-
-
-
-
-
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">Dashboard</ui:define>
+        <ui:define name="body">
+            <div class="dashboard-links">
+                <h:link outcome="/item/List" value="Browse Items" />
+                <h:link outcome="/item/Create" value="Create New Item" rendered="#{loginBean.loggedIn}" />
+                <h:link outcome="/cartItem/List" value="My Cart" rendered="#{loginBean.loggedIn}" />
+                <h:link outcome="/category/List" value="Manage Categories" rendered="#{loginBean.loggedIn}" />
+                <h:link outcome="/appUser/List" value="Manage Users (Admin)" rendered="#{loginBean.admin}" />
+                <h:link outcome="/role/List" value="Manage Roles (Admin)" rendered="#{loginBean.admin}" />
+            </div>
+        </ui:define>
+    </ui:composition>
 </html>

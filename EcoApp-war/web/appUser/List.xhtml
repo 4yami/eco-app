@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.requireAdmin}" />
+        </f:metadata>
         <ui:define name="title">
             <h:outputText value="#{bundle.ListAppUserTitle}"></h:outputText>
         </ui:define>
@@ -60,16 +63,16 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{appUserController.prepareView}" value="#{bundle.ListAppUserViewLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{appUserController.prepareEdit}" value="#{bundle.ListAppUserEditLink}"/>
-                            <h:outputText value=" "/>
-                            <h:commandLink action="#{appUserController.destroy}" value="#{bundle.ListAppUserDestroyLink}"/>
+                            <h:commandLink action="#{appUserController.prepareView}" value="#{bundle.ListAppUserViewLink}" rendered="#{loginBean.admin}"/>
+                            <h:outputText value=" " rendered="#{loginBean.admin}"/>
+                            <h:commandLink action="#{appUserController.prepareEdit}" value="#{bundle.ListAppUserEditLink}" rendered="#{loginBean.admin}"/>
+                            <h:outputText value=" " rendered="#{loginBean.admin}"/>
+                            <h:commandLink action="#{appUserController.destroy}" value="#{bundle.ListAppUserDestroyLink}" rendered="#{loginBean.admin}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{appUserController.prepareCreate}" value="#{bundle.ListAppUserCreateLink}"/>
+                <h:commandLink action="#{appUserController.prepareCreate}" value="#{bundle.ListAppUserCreateLink}" rendered="#{loginBean.admin}"/>
                 <br />
                 <br />
                 <h:link outcome="/index" value="#{bundle.ListAppUserIndexLink}"/>

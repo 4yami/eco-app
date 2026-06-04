@@ -2,20 +2,43 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><ui:insert name="title">Default Title</ui:insert></title>
+        <title><ui:insert name="title">Eco App</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
     </h:head>
 
     <h:body>
-        <h1>
-            <ui:insert name="title">Default Title</ui:insert>
-        </h1>
-        <p>
-            <ui:insert name="body">Default Body</ui:insert>
-        </p>
-    </h:body>
+        <div class="nav-bar">
+            <div class="nav-inner">
+                <span class="nav-brand">Eco App</span>
+                <span class="nav-links">
+                    <h:link outcome="/public" value="Home" styleClass="nav-link" />
+                    <h:link outcome="/item/List" value="Browse" styleClass="nav-link" />
+                    <h:link outcome="/index" value="Dashboard" styleClass="nav-link" rendered="#{loginBean.loggedIn}" />
+                    <h:outputText rendered="#{loginBean.loggedIn}" styleClass="nav-sep" value="|" />
+                    <h:panelGroup rendered="#{loginBean.loggedIn}" styleClass="nav-user">
+                        <h:outputText value="Welcome, #{loginBean.loggedInUser.username}" />
+                        <h:form styleClass="nav-form">
+                            <h:commandLink action="#{loginBean.logout}" value="Logout" styleClass="nav-link" />
+                        </h:form>
+                    </h:panelGroup>
+                    <h:link outcome="/login" value="Login" styleClass="nav-link" rendered="#{!loginBean.loggedIn}" />
+                </span>
+            </div>
+        </div>
 
+        <div class="content">
+            <h1 class="page-title">
+                <ui:insert name="title">Eco App</ui:insert>
+            </h1>
+            <ui:insert name="body" />
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 Eco App - Campus Marketplace</p>
+        </div>
+    </h:body>
 </html>

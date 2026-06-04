@@ -33,12 +33,12 @@
                     <h:outputText value="#{itemController.selected.categoryId}" title="#{bundle.ViewItemTitle_categoryId}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{itemController.destroyAndView}" value="#{bundle.ViewItemDestroyLink}"/>
+                <h:commandLink action="#{itemController.destroyAndView}" value="#{bundle.ViewItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <br />
-                <h:link outcome="Edit" value="#{bundle.ViewItemEditLink}"/>
+                <h:link outcome="Edit" value="#{bundle.ViewItemEditLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ViewItemCreateLink}" />
+                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ViewItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <h:commandLink action="#{itemController.prepareList}" value="#{bundle.ViewItemShowAllLink}"/>
                 <br />

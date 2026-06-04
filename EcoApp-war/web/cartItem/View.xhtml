@@ -6,6 +6,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition template="/template.xhtml">
+        <f:metadata>
+            <f:viewAction action="#{loginBean.requireLogin}" />
+        </f:metadata>
         <ui:define name="title">
             <h:outputText value="#{bundle.ViewCartItemTitle}"></h:outputText>
         </ui:define>
@@ -25,12 +28,12 @@
                     <h:outputText value="#{cartItemController.selected.item}" title="#{bundle.ViewCartItemTitle_item}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{cartItemController.destroyAndView}" value="#{bundle.ViewCartItemDestroyLink}"/>
+                <h:commandLink action="#{cartItemController.destroyAndView}" value="#{bundle.ViewCartItemDestroyLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <br />
-                <h:link outcome="Edit" value="#{bundle.ViewCartItemEditLink}"/>
+                <h:link outcome="Edit" value="#{bundle.ViewCartItemEditLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
-                <h:commandLink action="#{cartItemController.prepareCreate}" value="#{bundle.ViewCartItemCreateLink}" />
+                <h:commandLink action="#{cartItemController.prepareCreate}" value="#{bundle.ViewCartItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 <br />
                 <h:commandLink action="#{cartItemController.prepareList}" value="#{bundle.ViewCartItemShowAllLink}"/>
                 <br />
