@@ -17,6 +17,8 @@
                 <span class="nav-links">
                     <h:link outcome="/public" value="Home" styleClass="nav-link" />
                     <h:link outcome="/item/List" value="Browse" styleClass="nav-link" />
+                    <h:link outcome="/cartItem/List" value="Cart" styleClass="nav-link" rendered="#{loginBean.loggedIn}" />
+                    <h:link outcome="/index" value="Admin" styleClass="nav-link" rendered="#{loginBean.admin}" />
                     <h:outputText rendered="#{loginBean.loggedIn}" styleClass="nav-sep" value="|" />
                     <h:panelGroup rendered="#{loginBean.loggedIn}" styleClass="nav-user">
                         <h:outputText value="Welcome, #{loginBean.loggedInUser.username}" />

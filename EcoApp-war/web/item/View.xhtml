@@ -31,7 +31,7 @@
                     <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_categoryId}"/>
                 </h:panelGrid>
                 <br />
-                <h:commandButton value="Buy Now" action="#{cartItemController.buyItem(itemController.selected)}"
+                <h:commandButton value="Add to Cart" action="#{cartItemController.addToCart(itemController.selected)}"
                     rendered="#{loginBean.loggedIn and !loginBean.admin and itemController.selected.status == 'AVAILABLE'}"
                     styleClass="btn" />
                 <h:outputText value=" (Sold)" rendered="#{itemController.selected.status != 'AVAILABLE'}" style="color: #c62828; font-weight: bold;" />

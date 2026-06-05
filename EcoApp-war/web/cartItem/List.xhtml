@@ -9,20 +9,68 @@
         <f:metadata>
             <f:viewAction action="#{loginBean.requireLogin}" />
         </f:metadata>
-        <ui:define name="title">
-            <h:outputText value="My Purchases"></h:outputText>
-        </ui:define>
+        <ui:define name="title">My Cart</ui:define>
         <ui:define name="body">
             <h:form styleClass="jsfcrud_list_form">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="You haven't purchased any items yet." rendered="#{cartItemController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{cartItemController.items.rowCount > 0}">
-                    <h:outputText value="#{cartItemController.pagination.pageFirstItem + 1}..#{cartItemController.pagination.pageLastItem + 1}/#{cartItemController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{cartItemController.previous}" value="#{bundle.Previous} #{cartItemController.pagination.pageSize}" rendered="#{cartItemController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{cartItemController.next}" value="#{bundle.Next} #{cartItemController.pagination.pageSize}" rendered="#{cartItemController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{cartItemController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+
+                <h2>Cart</h2>
+                <h:panelGroup rendered="#{cartItemController.cartItemCount == 0}">
+                    <p class="home-empty">Your cart is empty.</p>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{cartItemController.cartItemCount > 0}">
+                    <h:dataTable value="#{cartItemController.cartItemList}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date Added"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dateAdded}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Item"/>
+                            </f:facet>
+                            <h:outputText value="#{item.item.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Seller"/>
+                            </f:facet>
+                            <h:outputText value="#{item.item.sellerId.username}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Price"/>
+                            </f:facet>
+                            <h:outputText value="$#{item.item.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandButton value="Remove" action="#{cartItemController.removeFromCart(item)}" styleClass="btn btn-outline" />
+                        </h:column>
+                    </h:dataTable>
+                    <div style="margin-top: 14px; text-align: center;">
+                        <h:commandButton value="Purchase All" action="#{cartItemController.purchaseAll}" styleClass="btn" />
+                    </div>
+                </h:panelGroup>
+
+                <hr style="margin: 28px 0; border: none; border-top: 2px solid #d4e4d4;" />
+
+                <h2>Purchase History</h2>
+                <h:panelGroup rendered="#{cartItemController.historyCount == 0}">
+                    <p class="home-empty">No purchase history yet.</p>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{cartItemController.historyCount > 0}">
+                    <h:outputText value="#{cartItemController.historyPagination.pageFirstItem + 1}..#{cartItemController.historyPagination.pageLastItem + 1}/#{cartItemController.historyPagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{cartItemController.historyPrevious}" value="#{bundle.Previous} #{cartItemController.historyPagination.pageSize}" rendered="#{cartItemController.historyPagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{cartItemController.historyNext}" value="#{bundle.Next} #{cartItemController.historyPagination.pageSize}" rendered="#{cartItemController.historyPagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{cartItemController.historyItems}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Date Purchased"/>
@@ -45,21 +93,12 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Status"/>
+                                <h:outputText value="Price"/>
                             </f:facet>
-                            <h:outputText value="#{item.item.status}" />
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandButton value="Cancel Purchase" action="#{cartItemController.cancelPurchase(item)}"
-                                rendered="#{item.item.status == 'IN_CART'}"
-                                styleClass="btn" />
+                            <h:outputText value="$#{item.item.price}"/>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                
             </h:form>
         </ui:define>
     </ui:composition>

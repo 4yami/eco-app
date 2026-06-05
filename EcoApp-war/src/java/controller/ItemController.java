@@ -229,6 +229,7 @@ public class ItemController implements Serializable {
     public void resetListMode() {
         myItemsMode = false;
         recreateModel();
+        recreatePagination();
     }
 
     public void enterMyItemsMode() {

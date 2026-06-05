@@ -493,6 +493,65 @@ br {
     color: #7a9a7a;
 }
 
+/* ===== Checkout Page ===== */
+.checkout-card {
+    max-width: 520px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px;
+}
+
+.checkout-card h2 {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.checkout-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 28px;
+}
+
+.checkout-image {
+    flex-shrink: 0;
+}
+
+.checkout-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.checkout-title {
+    font-size: 1.1rem;
+    color: #2d3a2d;
+}
+
+.checkout-price {
+    font-size: 1.05rem;
+    color: #2d6a2d;
+    font-weight: 700;
+}
+
+.checkout-seller {
+    font-size: 0.85rem;
+    color: #7a9a7a;
+}
+
+.checkout-status {
+    font-size: 0.85rem;
+}
+
+.checkout-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .nav-inner {

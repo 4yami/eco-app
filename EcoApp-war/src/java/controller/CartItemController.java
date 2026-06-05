@@ -10,6 +10,7 @@ import session.ItemFacade;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -33,8 +34,11 @@ public class CartItemController implements Serializable {
     private session.CartItemFacade ejbFacade;
     @EJB
     private ItemFacade itemFacade;
-    private PaginationHelper pagination;
     private int selectedItemIndex;
+
+    private List<CartItem> cartItemList;
+    private PaginationHelper historyPagination;
+    private DataModel historyItems;
 
     @Inject
     private LoginController loginBean;
@@ -55,52 +59,190 @@ public class CartItemController implements Serializable {
         return ejbFacade;
     }
 
-    public PaginationHelper getPagination() {
-        if (pagination == null) {
-            if (loginBean != null && loginBean.isLoggedIn()) {
-                Integer userId = loginBean.getLoggedInUser().getId();
-                pagination = new PaginationHelper(10) {
-                    @Override
-                    public int getItemsCount() {
-                        return getFacade().countByUserId(userId);
-                    }
-                    @Override
-                    public DataModel createPageDataModel() {
-                        return new ListDataModel(getFacade().findByUserId(userId, getPageFirstItem(), getPageSize()));
-                    }
-                };
-            } else {
-                pagination = new PaginationHelper(10) {
-                    @Override
-                    public int getItemsCount() {
-                        return getFacade().count();
-                    }
-                    @Override
-                    public DataModel createPageDataModel() {
-                        return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                    }
-                };
-            }
+    // ----- Cart (unpaginated) -----
+
+    public List<CartItem> getCartItemList() {
+        if (cartItemList == null && loginBean != null && loginBean.isLoggedIn()) {
+            cartItemList = ejbFacade.findByUserIdAndPurchased(loginBean.getLoggedInUser().getId(), false, 0, Integer.MAX_VALUE);
         }
-        return pagination;
+        return cartItemList;
     }
 
+    public int getCartItemCount() {
+        List<CartItem> list = getCartItemList();
+        return list == null ? 0 : list.size();
+    }
+
+    private void recreateCartItemList() {
+        cartItemList = null;
+    }
+
+    // ----- Purchase History (paginated) -----
+
+    public PaginationHelper getHistoryPagination() {
+        if (historyPagination == null && loginBean != null && loginBean.isLoggedIn()) {
+            Integer userId = loginBean.getLoggedInUser().getId();
+            historyPagination = new PaginationHelper(10) {
+                @Override
+                public int getItemsCount() {
+                    return getFacade().countByUserIdAndPurchased(userId, true);
+                }
+                @Override
+                public DataModel createPageDataModel() {
+                    return new ListDataModel(getFacade().findByUserIdAndPurchased(userId, true, getPageFirstItem(), getPageSize()));
+                }
+            };
+        }
+        return historyPagination;
+    }
+
+    public DataModel getHistoryItems() {
+        if (historyItems == null) {
+            historyItems = getHistoryPagination().createPageDataModel();
+        }
+        return historyItems;
+    }
+
+    public int getHistoryCount() {
+        PaginationHelper ph = getHistoryPagination();
+        return ph == null ? 0 : ph.getItemsCount();
+    }
+
+    public String historyNext() {
+        getHistoryPagination().nextPage();
+        historyItems = null;
+        return null;
+    }
+
+    public String historyPrevious() {
+        getHistoryPagination().previousPage();
+        historyItems = null;
+        return null;
+    }
+
+    private void recreateHistory() {
+        historyPagination = null;
+        historyItems = null;
+    }
+
+    // ----- Cart Actions -----
+
+    public String addToCart(Item item) {
+        if (loginBean == null || !loginBean.isLoggedIn() || loginBean.isAdmin()) {
+            JsfUtil.addErrorMessage("You must be logged in as a regular user to add items to cart.");
+            return null;
+        }
+        if (!"AVAILABLE".equals(item.getStatus())) {
+            JsfUtil.addErrorMessage("This item is no longer available.");
+            return null;
+        }
+        if (item.getSellerId() != null && item.getSellerId().getId().equals(loginBean.getLoggedInUser().getId())) {
+            JsfUtil.addErrorMessage("You cannot add your own item to cart.");
+            return null;
+        }
+
+        CartItemPK pk = new CartItemPK(loginBean.getLoggedInUser().getId(), item.getId());
+        if (ejbFacade.find(pk) != null) {
+            JsfUtil.addErrorMessage("This item is already in your cart.");
+            return null;
+        }
+
+        try {
+            CartItem cartItem = new CartItem();
+            cartItem.setCartItemPK(pk);
+            cartItem.setAppUser(loginBean.getLoggedInUser());
+            cartItem.setItem(item);
+            cartItem.setDateAdded(new Date());
+            cartItem.setPurchased(false);
+
+            ejbFacade.create(cartItem);
+
+            item.setStatus("IN_CART");
+            itemFacade.edit(item);
+
+            JsfUtil.addSuccessMessage("Item added to cart!");
+            recreateCartItemList();
+            return null;
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Failed to add item to cart.");
+            return null;
+        }
+    }
+
+    public String removeFromCart(CartItem cartItem) {
+        if (cartItem == null || cartItem.getItem() == null) {
+            JsfUtil.addErrorMessage("Invalid cart item.");
+            return null;
+        }
+
+        try {
+            Item item = cartItem.getItem();
+            item.setStatus("AVAILABLE");
+            itemFacade.edit(item);
+
+            ejbFacade.remove(cartItem);
+
+            JsfUtil.addSuccessMessage("Item removed from cart.");
+            recreateCartItemList();
+            return null;
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Failed to remove item from cart.");
+            return null;
+        }
+    }
+
+    public String purchaseAll() {
+        if (loginBean == null || !loginBean.isLoggedIn()) {
+            JsfUtil.addErrorMessage("You must be logged in.");
+            return null;
+        }
+
+        List<CartItem> cart = getCartItemList();
+        if (cart == null || cart.isEmpty()) {
+            JsfUtil.addErrorMessage("Your cart is empty.");
+            return null;
+        }
+
+        int success = 0;
+        int skipped = 0;
+        for (CartItem ci : cart) {
+            try {
+                ci.setPurchased(true);
+                ejbFacade.edit(ci);
+                success++;
+            } catch (Exception e) {
+                skipped++;
+            }
+        }
+
+        recreateCartItemList();
+        recreateHistory();
+
+        if (skipped == 0) {
+            JsfUtil.addSuccessMessage(success + " item(s) purchased successfully!");
+        } else {
+            JsfUtil.addSuccessMessage(success + " item(s) purchased. " + skipped + " item(s) skipped due to errors.");
+        }
+        return null;
+    }
+
+    // ----- Standard CRUD helpers (for admin pages) -----
+
     public String prepareList() {
-        recreateModel();
-        return "List";
+        return "/cartItem/List.xhtml?faces-redirect=true";
     }
 
     public String prepareView() {
-        current = (CartItem) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
+        current = (CartItem) getHistoryItems().getRowData();
+        return "/cartItem/View.xhtml?faces-redirect=true";
     }
 
     public String prepareCreate() {
         current = new CartItem();
         current.setCartItemPK(new entity.CartItemPK());
+        current.setPurchased(false);
         selectedItemIndex = -1;
-        return "Create";
+        return "/cartItem/Create.xhtml?faces-redirect=true";
     }
 
     public String create() {
@@ -117,9 +259,8 @@ public class CartItemController implements Serializable {
     }
 
     public String prepareEdit() {
-        current = (CartItem) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
+        current = (CartItem) getHistoryItems().getRowData();
+        return "/cartItem/Edit.xhtml?faces-redirect=true";
     }
 
     public String update() {
@@ -128,7 +269,7 @@ public class CartItemController implements Serializable {
             current.getCartItemPK().setUserId(current.getAppUser().getId());
             getFacade().edit(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CartItemUpdated"));
-            return "View";
+            return "/cartItem/View.xhtml?faces-redirect=true";
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             return null;
@@ -136,24 +277,16 @@ public class CartItemController implements Serializable {
     }
 
     public String destroy() {
-        current = (CartItem) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
+        current = (CartItem) getHistoryItems().getRowData();
         performDestroy();
-        recreatePagination();
-        recreateModel();
-        return "List";
+        recreateHistory();
+        return "/cartItem/List.xhtml?faces-redirect=true";
     }
 
     public String destroyAndView() {
         performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            recreateModel();
-            return "List";
-        }
+        recreateHistory();
+        return "/cartItem/List.xhtml?faces-redirect=true";
     }
 
     private void performDestroy() {
@@ -163,46 +296,6 @@ public class CartItemController implements Serializable {
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
-    }
-
-    private void updateCurrentItem() {
-        int count = getFacade().count();
-        if (selectedItemIndex >= count) {
-            selectedItemIndex = count - 1;
-            if (pagination.getPageFirstItem() >= count) {
-                pagination.previousPage();
-            }
-        }
-        if (selectedItemIndex >= 0) {
-            current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
-        }
-    }
-
-    public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
-    }
-
-    private void recreateModel() {
-        items = null;
-    }
-
-    private void recreatePagination() {
-        pagination = null;
-    }
-
-    public String next() {
-        getPagination().nextPage();
-        recreateModel();
-        return "List";
-    }
-
-    public String previous() {
-        getPagination().previousPage();
-        recreateModel();
-        return "List";
     }
 
     public SelectItem[] getItemsAvailableSelectMany() {
@@ -215,72 +308,6 @@ public class CartItemController implements Serializable {
 
     public CartItem getCartItem(entity.CartItemPK id) {
         return ejbFacade.find(id);
-    }
-
-    // Buy Now action
-    public String buyItem(Item item) {
-        if (loginBean == null || !loginBean.isLoggedIn() || loginBean.isAdmin()) {
-            JsfUtil.addErrorMessage("You must be logged in as a regular user to purchase items.");
-            return null;
-        }
-        if (!"AVAILABLE".equals(item.getStatus())) {
-            JsfUtil.addErrorMessage("This item is no longer available.");
-            return null;
-        }
-        if (item.getSellerId() != null && item.getSellerId().getId().equals(loginBean.getLoggedInUser().getId())) {
-            JsfUtil.addErrorMessage("You cannot purchase your own item.");
-            return null;
-        }
-
-        // Check if already purchased
-        CartItemPK pk = new CartItemPK(loginBean.getLoggedInUser().getId(), item.getId());
-        if (ejbFacade.find(pk) != null) {
-            JsfUtil.addErrorMessage("You have already purchased this item.");
-            return null;
-        }
-
-        try {
-            CartItem cartItem = new CartItem();
-            cartItem.setCartItemPK(pk);
-            cartItem.setAppUser(loginBean.getLoggedInUser());
-            cartItem.setItem(item);
-            cartItem.setDateAdded(new Date());
-
-            ejbFacade.create(cartItem);
-
-            item.setStatus("IN_CART");
-            itemFacade.edit(item);
-
-            JsfUtil.addSuccessMessage("Item purchased successfully!");
-            return null;
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, "Purchase failed.");
-            return null;
-        }
-    }
-
-    // Cancel purchase - resets item status to AVAILABLE and removes cart entry
-    public String cancelPurchase(CartItem cartItem) {
-        if (cartItem == null || cartItem.getItem() == null) {
-            JsfUtil.addErrorMessage("Invalid cart item.");
-            return null;
-        }
-
-        try {
-            Item item = cartItem.getItem();
-            item.setStatus("AVAILABLE");
-            itemFacade.edit(item);
-
-            ejbFacade.remove(cartItem);
-
-            JsfUtil.addSuccessMessage("Purchase cancelled. Item is now available again.");
-            recreateModel();
-            recreatePagination();
-            return "List";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, "Failed to cancel purchase.");
-            return null;
-        }
     }
 
     @FacesConverter(forClass = CartItem.class)

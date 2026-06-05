@@ -38,6 +38,8 @@ public class CartItem implements Serializable {
     @Column(name = "DATE_ADDED")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateAdded;
+    @Column(name = "PURCHASED")
+    private boolean purchased;
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private AppUser appUser;
@@ -70,6 +72,14 @@ public class CartItem implements Serializable {
 
     public void setDateAdded(Date dateAdded) {
         this.dateAdded = dateAdded;
+    }
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
     }
 
     public AppUser getAppUser() {

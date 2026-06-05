@@ -79,7 +79,7 @@
                             <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}"
                                 rendered="#{loginBean.admin or (loginBean.loggedIn and item.sellerId.id == loginBean.loggedInUser.id)}" />
                             <h:outputText value=" " />
-                            <h:commandButton value="Buy Now" action="#{cartItemController.buyItem(item)}"
+                            <h:commandButton value="Add to Cart" action="#{cartItemController.addToCart(item)}"
                                 rendered="#{loginBean.loggedIn and !loginBean.admin and item.status == 'AVAILABLE'}"
                                 styleClass="btn" />
                         </h:column>
