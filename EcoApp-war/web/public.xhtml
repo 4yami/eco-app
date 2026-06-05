@@ -10,7 +10,7 @@
 
             <div class="hero-card">
                 <h1>Welcome to Eco App</h1>
-                <p>Discover campus items, reuse goods, and connect with sellers. Browse what is available now, then create an account to list items or make a purchase.</p>
+                <p>We believe in <strong>Reuse</strong> &mdash; the second of the 3Rs (Reduce, Reuse, Recycle). Eco App connects students and staff on campus so you can find or list pre-loved items, from textbooks to electronics. Buying second-hand reduces waste, saves money, and builds a more sustainable community. Browse what's available, list what you no longer need, and help make Reuse a habit on campus.</p>
             </div>
 
             <div class="home-action-grid">
@@ -19,17 +19,17 @@
                     <span class="home-action-label">Browse Items</span>
                     <span class="home-action-desc">View all available items</span>
                 </h:link>
-                <h:link outcome="/item/Create" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                <h:link outcome="/item/Create" styleClass="home-action-card">
                     <span class="home-action-icon">&#128221;</span>
                     <span class="home-action-label">List an Item</span>
                     <span class="home-action-desc">Sell something you no longer need</span>
                 </h:link>
-                <h:link outcome="/item/MyList" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                <h:link outcome="/item/MyList" styleClass="home-action-card">
                     <span class="home-action-icon">&#128188;</span>
                     <span class="home-action-label">My Items</span>
                     <span class="home-action-desc">Manage your listings</span>
                 </h:link>
-                <h:link outcome="/cartItem/List" styleClass="home-action-card" rendered="#{loginBean.loggedIn}">
+                <h:link outcome="/cartItem/List" styleClass="home-action-card">
                     <span class="home-action-icon">&#128722;</span>
                     <span class="home-action-label">My Purchases</span>
                     <span class="home-action-desc">View purchase history</span>

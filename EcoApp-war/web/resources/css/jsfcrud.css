@@ -133,25 +133,25 @@ h2 {
 
 /* ===== Hero Card (public landing) ===== */
 .hero-card {
-    max-width: 560px;
-    margin: 60px auto;
+    max-width: 860px;
+    margin: 36px auto;
     background: #fff;
     border-left: 4px solid #2d6a2d;
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    padding: 36px 32px;
+    padding: 48px 40px;
     text-align: center;
 }
 
 .hero-card h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 12px;
 }
 
 .hero-card p {
     color: #4a5a4a;
     margin-bottom: 20px;
-    font-size: 1rem;
+    font-size: 1.05rem;
 }
 
 .hero-links {
@@ -330,6 +330,21 @@ label {
 .dashboard-links a:hover {
     background-color: #edf5ed;
     text-decoration: none;
+}
+
+/* ===== Browse Table ===== */
+.browse-table td {
+    padding: 14px 12px;
+    vertical-align: middle;
+}
+
+.browse-table td:first-child {
+    font-weight: 600;
+}
+
+.browse-table img {
+    border-radius: 6px;
+    object-fit: cover;
 }
 
 /* ===== Pagination helpers ===== */
