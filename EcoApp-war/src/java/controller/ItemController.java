@@ -69,11 +69,11 @@ public class ItemController implements Serializable {
                 pagination = new PaginationHelper(10) {
                     @Override
                     public int getItemsCount() {
-                        return getFacade().count();
+                        return getFacade().countAvailable();
                     }
                     @Override
                     public DataModel createPageDataModel() {
-                        return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
+                        return new ListDataModel(getFacade().findAvailable(getPageFirstItem(), getPageSize()));
                     }
                 };
             }

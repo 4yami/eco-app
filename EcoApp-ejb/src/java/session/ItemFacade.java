@@ -31,6 +31,20 @@ public class ItemFacade extends AbstractFacade<Item> {
         return query.getResultList();
     }
 
+    public List<Item> findAvailable(int start, int max) {
+        TypedQuery<Item> query = em.createQuery(
+            "SELECT i FROM Item i WHERE i.status = 'AVAILABLE' ORDER BY i.id DESC", Item.class);
+        query.setFirstResult(start);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public int countAvailable() {
+        javax.persistence.Query query = em.createQuery(
+            "SELECT COUNT(i) FROM Item i WHERE i.status = 'AVAILABLE'");
+        return ((Long) query.getSingleResult()).intValue();
+    }
+
     public List<Item> findRecent(int max) {
         TypedQuery<Item> query = em.createQuery(
             "SELECT i FROM Item i WHERE i.status = 'AVAILABLE' ORDER BY i.id DESC", Item.class);

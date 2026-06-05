@@ -209,6 +209,9 @@ public class CartItemController implements Serializable {
             try {
                 ci.setPurchased(true);
                 ejbFacade.edit(ci);
+                Item item = ci.getItem();
+                item.setStatus("SOLD");
+                itemFacade.edit(item);
                 success++;
             } catch (Exception e) {
                 skipped++;

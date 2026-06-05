@@ -34,7 +34,7 @@
                 <h:commandButton value="Add to Cart" action="#{cartItemController.addToCart(itemController.selected)}"
                     rendered="#{loginBean.loggedIn and !loginBean.admin and itemController.selected.status == 'AVAILABLE'}"
                     styleClass="btn" />
-                <h:outputText value=" (Sold)" rendered="#{itemController.selected.status != 'AVAILABLE'}" style="color: #c62828; font-weight: bold;" />
+                
                 <br /><br />
                 <h:commandLink action="#{itemController.destroyAndView}" value="#{bundle.ViewItemDestroyLink}"
                     rendered="#{loginBean.admin or (loginBean.loggedIn and itemController.selected.sellerId.id == loginBean.loggedInUser.id)}" />
