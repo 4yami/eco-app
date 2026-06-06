@@ -22,7 +22,13 @@
                     <h:outputText value="#{itemController.pagination.pageFirstItem + 1}..#{itemController.pagination.pageLastItem + 1}/#{itemController.pagination.itemsCount}"/>&nbsp;
                     <h:commandLink action="#{itemController.previous}" value="#{bundle.Previous} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasPreviousPage}"/>&nbsp;
                     <h:commandLink action="#{itemController.next}" value="#{bundle.Next} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasNextPage}"/>&nbsp;
-                    <h:dataTable value="#{itemController.items}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
+                                        <h:dataTable value="#{itemController.items}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItemTitle_image}"/>
+                            </f:facet>
+                            <h:graphicImage value="#{item.imageUrl}" width="120" height="90" style="object-fit: cover; border-radius: 6px;" rendered="#{not empty item.imageUrl}" />
+                        </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListItemTitle_title}"/>
@@ -49,21 +55,15 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListItemTitle_imageUrl}"/>
-                            </f:facet>
-                            <h:graphicImage value="#{item.imageUrl}" width="120" height="90" style="object-fit: cover; border-radius: 6px;" rendered="#{not empty item.imageUrl}" />
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListItemTitle_sellerId}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sellerId.username}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListItemTitle_categoryId}"/>
+                                <h:outputText value="#{bundle.ListItemTitle_category}"/>
                             </f:facet>
                             <h:outputText value="#{item.categoryId.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListItemTitle_seller}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sellerId.username}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">

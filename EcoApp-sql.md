@@ -101,3 +101,5 @@ VALUES ('24-inch Gaming Monitor', '1080p 144Hz monitor. Excellent condition.', 1
 -- Seed Cart Item (Bob adds Alice's Calculator to his shopping cart)
 -- user_id = 3 (Bob), item_id = 1 (TI-84 Calculator)
 INSERT INTO CART_ITEM (user_id, item_id) VALUES (3, 1);
+
+ALTER TABLE CART_ITEM ADD PURCHASED SMALLINT DEFAULT 0 NOT NULL;

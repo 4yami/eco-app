@@ -23,12 +23,12 @@
                     <h:outputText value="#{itemController.selected.price}" title="#{bundle.ViewItemTitle_price}"/>
                     <h:outputText value="#{bundle.ViewItemLabel_status}"/>
                     <h:outputText value="#{itemController.selected.status}" title="#{bundle.ViewItemTitle_status}"/>
-                    <h:outputText value="#{bundle.ViewItemLabel_imageUrl}"/>
+                    <h:outputText value="#{bundle.ViewItemLabel_image}"/>
                     <h:graphicImage value="#{itemController.selected.imageUrl}" width="300" style="max-width: 100%; border-radius: 6px;" rendered="#{not empty itemController.selected.imageUrl}" />
-                    <h:outputText value="#{bundle.ViewItemLabel_sellerId}"/>
-                    <h:outputText value="#{itemController.selected.sellerId.username}" title="#{bundle.ViewItemTitle_sellerId}"/>
-                    <h:outputText value="#{bundle.ViewItemLabel_categoryId}"/>
-                    <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_categoryId}"/>
+                    <h:outputText value="#{bundle.ViewItemLabel_seller}"/>
+                    <h:outputText value="#{itemController.selected.sellerId.username}" title="#{bundle.ViewItemTitle_seller}"/>
+                    <h:outputText value="#{bundle.ViewItemLabel_category}"/>
+                    <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_category}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandButton value="Add to Cart" action="#{cartItemController.addToCart(itemController.selected)}"

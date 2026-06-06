@@ -28,14 +28,14 @@
                     <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.EditItemTitle_price}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}"/>
                     <h:outputLabel value="#{bundle.EditItemLabel_status}" for="status" />
                     <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.EditItemTitle_status}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_status}"/>
-                    <h:outputLabel value="#{bundle.EditItemLabel_imageUrl}" for="imageUrl" />
-                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.EditItemTitle_imageUrl}" />
-                    <h:outputLabel value="#{bundle.EditItemLabel_sellerId}" for="sellerId" rendered="#{loginBean.admin}" />
-                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_sellerId}" rendered="#{loginBean.admin}">
+                    <h:outputLabel value="#{bundle.EditItemLabel_image}" for="imageUrl" />
+                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.EditItemTitle_image}" />
+                    <h:outputLabel value="#{bundle.EditItemLabel_seller}" for="sellerId" rendered="#{loginBean.admin}" />
+                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_seller}" rendered="#{loginBean.admin}">
                         <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
-                    <h:outputLabel value="#{bundle.EditItemLabel_categoryId}" for="categoryId" />
-                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" title="#{bundle.EditItemTitle_categoryId}" >
+                    <h:outputLabel value="#{bundle.EditItemLabel_category}" for="categoryId" />
+                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" title="#{bundle.EditItemTitle_category}" >
                         <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
