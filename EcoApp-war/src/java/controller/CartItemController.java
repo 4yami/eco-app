@@ -191,6 +191,32 @@ public class CartItemController implements Serializable {
         }
     }
 
+    public String purchaseOne(CartItem cartItem) {
+        if (loginBean == null || !loginBean.isLoggedIn()) {
+            JsfUtil.addErrorMessage("You must be logged in.");
+            return null;
+        }
+        if (cartItem == null || cartItem.getItem() == null) {
+            JsfUtil.addErrorMessage("Invalid cart item.");
+            return null;
+        }
+
+        try {
+            cartItem.setPurchased(true);
+            ejbFacade.edit(cartItem);
+            Item item = cartItem.getItem();
+            item.setStatus("SOLD");
+            itemFacade.edit(item);
+
+            JsfUtil.addSuccessMessage("Purchased \"" + item.getTitle() + "\" successfully!");
+            recreateCartItemList();
+            recreateHistory();
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, "Failed to purchase item.");
+        }
+        return null;
+    }
+
     public String purchaseAll() {
         if (loginBean == null || !loginBean.isLoggedIn()) {
             JsfUtil.addErrorMessage("You must be logged in.");

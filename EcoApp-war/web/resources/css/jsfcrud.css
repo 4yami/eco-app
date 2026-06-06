@@ -359,6 +359,29 @@ label {
     object-fit: cover;
 }
 
+/* ===== List Toolbar ===== */
+.list-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.list-toolbar-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #4a5a4a;
+    font-size: 0.9rem;
+}
+
+.list-toolbar-right {
+    display: inline-flex;
+    align-items: center;
+}
+
 /* ===== Pagination helpers ===== */
 .pagination-info {
     margin-bottom: 12px;

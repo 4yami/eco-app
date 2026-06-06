@@ -53,6 +53,8 @@
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandButton value="Remove" action="#{cartItemController.removeFromCart(item)}" styleClass="btn btn-outline" />
+                            <h:outputText value=" " />
+                            <h:commandButton value="Purchase" action="#{cartItemController.purchaseOne(item)}" styleClass="btn" />
                         </h:column>
                     </h:dataTable>
                     <div style="margin-top: 14px; text-align: center;">

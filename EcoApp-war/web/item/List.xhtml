@@ -17,12 +17,21 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListItemEmpty}" rendered="#{itemController.items.rowCount == 0}"/>
+                <div class="list-toolbar">
+                    <span class="list-toolbar-left">
+                        <h:outputText escape="false" value="#{bundle.ListItemEmpty}" rendered="#{itemController.items.rowCount == 0}"/>
+                        <h:panelGroup rendered="#{itemController.items.rowCount > 0}">
+                            <h:outputText value="#{itemController.pagination.pageFirstItem + 1}..#{itemController.pagination.pageLastItem + 1}/#{itemController.pagination.itemsCount}"/>&nbsp;
+                            <h:commandLink action="#{itemController.previous}" value="#{bundle.Previous} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasPreviousPage}"/>&nbsp;
+                            <h:commandLink action="#{itemController.next}" value="#{bundle.Next} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasNextPage}"/>&nbsp;
+                        </h:panelGroup>
+                    </span>
+                    <span class="list-toolbar-right">
+                        <h:commandButton action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}" rendered="#{loginBean.loggedIn}" styleClass="btn" />
+                    </span>
+                </div>
                 <h:panelGroup rendered="#{itemController.items.rowCount > 0}">
-                    <h:outputText value="#{itemController.pagination.pageFirstItem + 1}..#{itemController.pagination.pageLastItem + 1}/#{itemController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{itemController.previous}" value="#{bundle.Previous} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{itemController.next}" value="#{bundle.Next} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasNextPage}"/>&nbsp;
-                                        <h:dataTable value="#{itemController.items}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
+                    <h:dataTable value="#{itemController.items}" var="item" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListItemTitle_image}"/>
@@ -85,7 +94,6 @@
                     </h:dataTable>
                 </h:panelGroup>
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 
             </h:form>
         </ui:define>

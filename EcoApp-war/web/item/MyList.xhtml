@@ -18,11 +18,19 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="You haven't listed any items yet." rendered="#{itemController.items.rowCount == 0}"/>
-                <h:panelGroup rendered="#{itemController.items.rowCount > 0}">
-                    <h:outputText value="#{itemController.pagination.pageFirstItem + 1}..#{itemController.pagination.pageLastItem + 1}/#{itemController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{itemController.previous}" value="#{bundle.Previous} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{itemController.next}" value="#{bundle.Next} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasNextPage}"/>&nbsp;
+                <div class="list-toolbar">
+                    <span class="list-toolbar-left">
+                        <h:outputText escape="false" value="You haven't listed any items yet." rendered="#{itemController.items.rowCount == 0}"/>
+                        <h:panelGroup rendered="#{itemController.items.rowCount > 0}">
+                            <h:outputText value="#{itemController.pagination.pageFirstItem + 1}..#{itemController.pagination.pageLastItem + 1}/#{itemController.pagination.itemsCount}"/>&nbsp;
+                            <h:commandLink action="#{itemController.previous}" value="#{bundle.Previous} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasPreviousPage}"/>&nbsp;
+                            <h:commandLink action="#{itemController.next}" value="#{bundle.Next} #{itemController.pagination.pageSize}" rendered="#{itemController.pagination.hasNextPage}"/>&nbsp;
+                        </h:panelGroup>
+                    </span>
+                    <span class="list-toolbar-right">
+                        <h:commandButton action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}" styleClass="btn" />
+                    </span>
+                </div>
                     <h:dataTable value="#{itemController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
@@ -59,9 +67,7 @@
                             <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}"/>
                         </h:column>
                     </h:dataTable>
-                </h:panelGroup>
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ListItemCreateLink}" />
                 
             </h:form>
         </ui:define>

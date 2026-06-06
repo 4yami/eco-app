@@ -183,7 +183,7 @@ VALUES ('iPad Air M2', '11-inch, 128GB, Space Gray, with Apple Pencil Pro.', 550
 -- Seed Cart Items (Bob and others adding items to their shopping carts)
 -- user_id = 3 (Bob), item_id = 1 (TI-84 Calculator)
 INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (3, 1, 0);
-INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (3, 7, 0);
-INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (2, 5, 0);
+INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (3, 10, 0);
+INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (2, 7, 0);
 INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (2, 12, 0);
-INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (3, 20, 0);
+INSERT INTO CART_ITEM (user_id, item_id, purchased) VALUES (3, 17, 0);
