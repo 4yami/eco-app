@@ -58,4 +58,34 @@ public class ItemFacade extends AbstractFacade<Item> {
         query.setParameter("sellerId", sellerId);
         return ((Long) query.getSingleResult()).intValue();
     }
+
+    public List<Item> findAvailableExcludingSeller(int start, int max, Integer excludeSellerId) {
+        String jpql;
+        if (excludeSellerId == null) {
+            jpql = "SELECT i FROM Item i WHERE i.status = 'AVAILABLE' ORDER BY i.id DESC";
+        } else {
+            jpql = "SELECT i FROM Item i WHERE i.status = 'AVAILABLE' AND i.sellerId.id != :excludeSellerId ORDER BY i.id DESC";
+        }
+        TypedQuery<Item> query = em.createQuery(jpql, Item.class);
+        if (excludeSellerId != null) {
+            query.setParameter("excludeSellerId", excludeSellerId);
+        }
+        query.setFirstResult(start);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public int countAvailableExcludingSeller(Integer excludeSellerId) {
+        String jpql;
+        if (excludeSellerId == null) {
+            jpql = "SELECT COUNT(i) FROM Item i WHERE i.status = 'AVAILABLE'";
+        } else {
+            jpql = "SELECT COUNT(i) FROM Item i WHERE i.status = 'AVAILABLE' AND i.sellerId.id != :excludeSellerId";
+        }
+        javax.persistence.Query query = em.createQuery(jpql);
+        if (excludeSellerId != null) {
+            query.setParameter("excludeSellerId", excludeSellerId);
+        }
+        return ((Long) query.getSingleResult()).intValue();
+    }
 }

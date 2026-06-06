@@ -52,13 +52,13 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandButton value="Remove" action="#{cartItemController.removeFromCart(item)}" styleClass="btn btn-outline" />
+                            <h:commandButton value="Remove" action="#{cartItemController.removeFromCart(item)}" styleClass="btn btn-outline" onclick="return confirm('Are you sure you want to remove this item from your cart?')" />
                             <h:outputText value=" " />
-                            <h:commandButton value="Purchase" action="#{cartItemController.purchaseOne(item)}" styleClass="btn" />
+                            <h:commandButton value="Purchase" action="#{cartItemController.purchaseOne(item)}" styleClass="btn" onclick="return confirm('Are you sure you want to purchase this item?')" />
                         </h:column>
                     </h:dataTable>
                     <div style="margin-top: 14px; text-align: center;">
-                        <h:commandButton value="Purchase All" action="#{cartItemController.purchaseAll}" styleClass="btn" />
+                        <h:commandButton value="Purchase All" action="#{cartItemController.purchaseAll}" styleClass="btn" onclick="return confirm('Are you sure you want to purchase all items in your cart?')" />
                     </div>
                 </h:panelGroup>
 

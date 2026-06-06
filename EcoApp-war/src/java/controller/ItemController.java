@@ -66,14 +66,18 @@ public class ItemController implements Serializable {
                     }
                 };
             } else {
+                // In browse mode, exclude the logged-in user's own items
+                Integer excludeId = (loginBean != null && loginBean.isLoggedIn() && !loginBean.isAdmin())
+                        ? loginBean.getLoggedInUser().getId() : null;
+                Integer finalExcludeId = excludeId;
                 pagination = new PaginationHelper(10) {
                     @Override
                     public int getItemsCount() {
-                        return getFacade().countAvailable();
+                        return getFacade().countAvailableExcludingSeller(finalExcludeId);
                     }
                     @Override
                     public DataModel createPageDataModel() {
-                        return new ListDataModel(getFacade().findAvailable(getPageFirstItem(), getPageSize()));
+                        return new ListDataModel(getFacade().findAvailableExcludingSeller(getPageFirstItem(), getPageSize(), finalExcludeId));
                     }
                 };
             }
