@@ -309,6 +309,18 @@ label {
     white-space: nowrap;
 }
 
+.panel-grid-form .labelCol {
+    width: 120px;
+    white-space: nowrap;
+    vertical-align: top;
+    padding-top: 10px;
+}
+
+.panel-grid-form .inputCol {
+    width: 400px;
+    padding: 6px 8px;
+}
+
 /* ===== Dashboard / Index links ===== */
 .dashboard-links {
     background: #fff;

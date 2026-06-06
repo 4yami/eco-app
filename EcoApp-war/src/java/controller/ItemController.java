@@ -223,7 +223,7 @@ public class ItemController implements Serializable {
     }
 
     public List<Item> getRecentItems() {
-        return getFacade().findRecent(6);
+        return getFacade().findRecent(4);
     }
 
     public void resetListMode() {

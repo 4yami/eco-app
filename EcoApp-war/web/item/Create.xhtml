@@ -9,48 +9,60 @@
         <f:metadata>
             <f:viewAction action="#{loginBean.requireLogin}" />
         </f:metadata>
-        <ui:define name="title">
-            <h:outputText value="#{bundle.EditItemTitle}"></h:outputText>
+                <ui:define name="title">
+            <h:outputText value="#{bundle.CreateItemTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditItemLabel_id}" for="id" />
-                    <h:outputText id="id" value="#{itemController.selected.id}" />
-                    <h:outputLabel value="#{bundle.EditItemLabel_title}" for="title" />
-                    <h:inputText id="title" value="#{itemController.selected.title}" title="#{bundle.EditItemTitle_title}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_title}"/>
-                    <h:outputLabel value="#{bundle.EditItemLabel_description}" for="description" />
-                    <h:inputText id="description" value="#{itemController.selected.description}" title="#{bundle.EditItemTitle_description}" />
-                    <h:outputLabel value="#{bundle.EditItemLabel_price}" for="price" />
-                    <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.EditItemTitle_price}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}"/>
-                    <h:outputLabel value="#{bundle.EditItemLabel_status}" for="status" />
-                    <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.EditItemTitle_status}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_status}"/>
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
+                        <h:outputLabel value="#{bundle.CreateItemLabel_title}" for="title" />
+                        <h:inputText id="title" value="#{itemController.selected.title}" 
+                                     title="#{bundle.CreateItemTitle_title}" 
+                                     required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_title}"
+                                     style="width: 100%;" />
 
+                        <h:outputLabel value="#{bundle.CreateItemLabel_description}" for="description" />
+                        <h:inputTextarea id="description" value="#{itemController.selected.description}" 
+                                         title="#{bundle.CreateItemTitle_description}" 
+                                         rows="4" style="width: 100%;" />
 
+                        <h:outputLabel value="#{bundle.CreateItemLabel_price}" for="price" />
+                        <h:inputText id="price" value="#{itemController.selected.price}" 
+                                     title="#{bundle.CreateItemTitle_price}" 
+                                     required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_price}"
+                                     style="width: 100%;" />
 
+                        <h:outputLabel value="#{bundle.CreateItemLabel_status}" for="status" />
+                        <h:inputText id="status" value="#{itemController.selected.status}" 
+                                     title="#{bundle.CreateItemTitle_status}" 
+                                     required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_status}"
+                                     style="width: 100%;" />
 
-                    <h:outputLabel value="#{bundle.EditItemLabel_image}" for="imageUrl" />
-                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.EditItemTitle_image}" />
-                    <h:outputLabel value="#{bundle.EditItemLabel_seller}" for="sellerId" rendered="#{loginBean.admin}" />
-                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_seller}" rendered="#{loginBean.admin}">
-                        <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
+                        <h:outputLabel value="#{bundle.CreateItemLabel_image}" for="imageUrl" />
+                        <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" 
+                                     title="#{bundle.CreateItemTitle_image}"
+                                     style="width: 100%;" />
 
+                        <h:outputLabel value="#{bundle.CreateItemLabel_seller}" for="sellerId" rendered="#{loginBean.admin}" />
+                        <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" 
+                                         title="#{bundle.CreateItemTitle_seller}" rendered="#{loginBean.admin}"
+                                         style="width: 100%;">
+                            <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
 
-                    <h:outputLabel value="#{bundle.EditItemLabel_category}" for="categoryId" />
-                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" title="#{bundle.EditItemTitle_category}" >
-                        <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
-                    </h:selectOneMenu>
-                </h:panelGrid>
-                <h:commandLink action="#{itemController.update}" value="#{bundle.EditItemSaveLink}"/>
-                <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditItemViewLink}"/>
-                <br />
-                <h:commandLink action="#{itemController.prepareList}" value="#{bundle.EditItemShowAllLink}" immediate="true"/>
+                        <h:outputLabel value="#{bundle.CreateItemLabel_category}" for="categoryId" />
+                        <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" 
+                                         title="#{bundle.CreateItemTitle_category}" style="width: 100%;">
+                            <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    <h:commandButton action="#{itemController.create}" value="#{bundle.CreateItemSaveLink}" styleClass="btn"/>
+                    <br />
+                    <br />
+                    <h:commandLink action="#{itemController.prepareList}" value="#{bundle.CreateItemShowAllLink}" immediate="true"/>
                 
             </h:form>
         </ui:define>
