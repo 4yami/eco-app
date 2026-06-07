@@ -28,7 +28,7 @@
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_phone}" for="phone" />
                     <h:inputText id="phone" value="#{appUserController.selected.phone}" title="#{bundle.CreateAppUserTitle_phone}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_phone}"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_roleId}" for="roleId" />
-                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.CreateAppUserTitle_roleId}" >
+                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.CreateAppUserTitle_roleId}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_roleId}">
                         <f:selectItems value="#{roleController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>

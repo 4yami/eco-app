@@ -17,11 +17,20 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListCategoryEmpty}" rendered="#{categoryController.items.rowCount == 0}"/>
+                <div class="list-toolbar">
+                    <span class="list-toolbar-left">
+                        <h:outputText escape="false" value="#{bundle.ListCategoryEmpty}" rendered="#{categoryController.items.rowCount == 0}"/>
+                        <h:panelGroup rendered="#{categoryController.items.rowCount > 0}">
+                            <h:outputText value="#{categoryController.pagination.pageFirstItem + 1}..#{categoryController.pagination.pageLastItem + 1}/#{categoryController.pagination.itemsCount}"/>&nbsp;
+                            <h:commandLink action="#{categoryController.previous}" value="#{bundle.Previous} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasPreviousPage}"/>&nbsp;
+                            <h:commandLink action="#{categoryController.next}" value="#{bundle.Next} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasNextPage}"/>&nbsp;
+                        </h:panelGroup>
+                    </span>
+                    <span class="list-toolbar-right">
+                        <h:commandButton action="#{categoryController.prepareCreate}" value="#{bundle.ListCategoryCreateLink}" rendered="#{loginBean.loggedIn}" styleClass="btn" />
+                    </span>
+                </div>
                 <h:panelGroup rendered="#{categoryController.items.rowCount > 0}">
-                    <h:outputText value="#{categoryController.pagination.pageFirstItem + 1}..#{categoryController.pagination.pageLastItem + 1}/#{categoryController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{categoryController.previous}" value="#{bundle.Previous} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{categoryController.next}" value="#{bundle.Next} #{categoryController.pagination.pageSize}" rendered="#{categoryController.pagination.hasNextPage}"/>&nbsp;
                     <h:dataTable value="#{categoryController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
@@ -47,8 +56,6 @@
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{categoryController.prepareCreate}" value="#{bundle.ListCategoryCreateLink}" rendered="#{loginBean.loggedIn}"/>
                 
             </h:form>
         </ui:define>

@@ -34,6 +34,16 @@
                     <span class="home-action-label">My Cart</span>
                     <span class="home-action-desc">Manage your cart and view history</span>
                 </h:link>
+                <h:link outcome="/category/List" styleClass="home-action-card" rendered="#{loginBean.admin}">
+                    <span class="home-action-icon">&#128193;</span>
+                    <span class="home-action-label">Manage Categories</span>
+                    <span class="home-action-desc">Organize item categories</span>
+                </h:link>
+                <h:link outcome="/appUser/List" styleClass="home-action-card" rendered="#{loginBean.admin}">
+                    <span class="home-action-icon">&#128101;</span>
+                    <span class="home-action-label">Manage Users (Admin)</span>
+                    <span class="home-action-desc">View and manage user accounts</span>
+                </h:link>
             </div>
 
             <div class="home-recent-section">

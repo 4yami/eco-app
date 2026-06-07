@@ -53,6 +53,8 @@ public class Item implements Serializable {
     @Size(min = 1, max = 150)
     @Column(name = "TITLE")
     private String title;
+    @Basic(optional = false)
+    @NotNull
     @Size(max = 1000)
     @Column(name = "DESCRIPTION")
     private String description;
@@ -66,14 +68,18 @@ public class Item implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "STATUS")
     private String status;
+    @Basic(optional = false)
+    @NotNull
     @Size(max = 2048)
     @Column(name = "IMAGE_URL")
     private String imageUrl;
     @JoinColumn(name = "SELLER_ID", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private AppUser sellerId;
     @JoinColumn(name = "CATEGORY_ID", referencedColumnName = "ID")
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private Category categoryId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "item")
     private Collection<CartItem> cartItemCollection;
@@ -85,11 +91,12 @@ public class Item implements Serializable {
         this.id = id;
     }
 
-    public Item(Integer id, String title, BigDecimal price, String status) {
+    public Item(Integer id, String title, BigDecimal price, String status, String imageUrl) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
     public Integer getId() {

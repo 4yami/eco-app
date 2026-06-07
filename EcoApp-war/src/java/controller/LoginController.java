@@ -66,7 +66,7 @@ public class LoginController implements Serializable {
 
     public void requireAdmin() {
         if (!isAdmin()) {
-            redirectTo("/index.xhtml");
+            redirectTo("/public.xhtml");
         }
     }
 

@@ -17,11 +17,20 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <h:outputText escape="false" value="#{bundle.ListAppUserEmpty}" rendered="#{appUserController.items.rowCount == 0}"/>
+                <div class="list-toolbar">
+                    <span class="list-toolbar-left">
+                        <h:outputText escape="false" value="#{bundle.ListAppUserEmpty}" rendered="#{appUserController.items.rowCount == 0}"/>
+                        <h:panelGroup rendered="#{appUserController.items.rowCount > 0}">
+                            <h:outputText value="#{appUserController.pagination.pageFirstItem + 1}..#{appUserController.pagination.pageLastItem + 1}/#{appUserController.pagination.itemsCount}"/>&nbsp;
+                            <h:commandLink action="#{appUserController.previous}" value="#{bundle.Previous} #{appUserController.pagination.pageSize}" rendered="#{appUserController.pagination.hasPreviousPage}"/>&nbsp;
+                            <h:commandLink action="#{appUserController.next}" value="#{bundle.Next} #{appUserController.pagination.pageSize}" rendered="#{appUserController.pagination.hasNextPage}"/>&nbsp;
+                        </h:panelGroup>
+                    </span>
+                    <span class="list-toolbar-right">
+                        <h:commandButton action="#{appUserController.prepareCreate}" value="#{bundle.ListAppUserCreateLink}" rendered="#{loginBean.admin}" styleClass="btn" />
+                    </span>
+                </div>
                 <h:panelGroup rendered="#{appUserController.items.rowCount > 0}">
-                    <h:outputText value="#{appUserController.pagination.pageFirstItem + 1}..#{appUserController.pagination.pageLastItem + 1}/#{appUserController.pagination.itemsCount}"/>&nbsp;
-                    <h:commandLink action="#{appUserController.previous}" value="#{bundle.Previous} #{appUserController.pagination.pageSize}" rendered="#{appUserController.pagination.hasPreviousPage}"/>&nbsp;
-                    <h:commandLink action="#{appUserController.next}" value="#{bundle.Next} #{appUserController.pagination.pageSize}" rendered="#{appUserController.pagination.hasNextPage}"/>&nbsp;
                     <h:dataTable value="#{appUserController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
@@ -71,8 +80,6 @@
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{appUserController.prepareCreate}" value="#{bundle.ListAppUserCreateLink}" rendered="#{loginBean.admin}"/>
                 
             </h:form>
         </ui:define>

@@ -29,7 +29,7 @@
                     <h:outputLabel value="#{bundle.EditAppUserLabel_phone}" for="phone" />
                     <h:inputText id="phone" value="#{appUserController.selected.phone}" title="#{bundle.EditAppUserTitle_phone}" required="true" requiredMessage="#{bundle.EditAppUserRequiredMessage_phone}"/>
                     <h:outputLabel value="#{bundle.EditAppUserLabel_roleId}" for="roleId" />
-                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.EditAppUserTitle_roleId}" >
+                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.EditAppUserTitle_roleId}" required="true" requiredMessage="#{bundle.EditAppUserRequiredMessage_roleId}">
                         <f:selectItems value="#{roleController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>

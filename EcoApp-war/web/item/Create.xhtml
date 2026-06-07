@@ -28,6 +28,7 @@
                         <h:outputLabel value="#{bundle.CreateItemLabel_description}" for="description" />
                         <h:inputTextarea id="description" value="#{itemController.selected.description}" 
                                          title="#{bundle.CreateItemTitle_description}" 
+                                         required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_description}"
                                          rows="4" style="width: 100%;" />
 
                         <h:outputLabel value="#{bundle.CreateItemLabel_price}" for="price" />
@@ -39,18 +40,24 @@
                         <h:outputLabel value="#{bundle.CreateItemLabel_image}" for="imageUrl" />
                         <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" 
                                      title="#{bundle.CreateItemTitle_image}"
+                                     required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_image}"
                                      style="width: 100%;" />
 
                         <h:outputLabel value="#{bundle.CreateItemLabel_seller}" for="sellerId" rendered="#{loginBean.admin}" />
                         <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" 
                                          title="#{bundle.CreateItemTitle_seller}" rendered="#{loginBean.admin}"
+                                         required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_seller}"
                                          style="width: 100%;">
+                            <f:selectItem itemLabel="Select a seller..." itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
                         </h:selectOneMenu>
 
                         <h:outputLabel value="#{bundle.CreateItemLabel_category}" for="categoryId" />
                         <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" 
-                                         title="#{bundle.CreateItemTitle_category}" style="width: 100%;">
+                                         title="#{bundle.CreateItemTitle_category}" 
+                                         required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_category}"
+                                         style="width: 100%;">
+                            <f:selectItem itemLabel="Select a category..." itemValue="" noSelectionOption="true" />
                             <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
                         </h:selectOneMenu>
                     </h:panelGrid>
@@ -59,6 +66,32 @@
                     <br />
                     
             </h:form>
+            
+            <script type="text/javascript">
+                // <![CDATA[
+                window.addEventListener('DOMContentLoaded', function() {
+                    var inputs = document.querySelectorAll('input[type="text"], input[type="url"], input[type="number"], textarea');
+                    var placeholders = {
+                        'title': 'e.g. Vintage Leather Jacket',
+                        'description': 'e.g. A brief description of the item...',
+                        'price': 'e.g. 29.99',
+                        'imageUrl': 'e.g. https://i.imgur.com/abc123.jpg'
+                    };
+                    for (var i = 0; i < inputs.length; i++) {
+                        var input = inputs[i];
+                        var inputId = input.id;
+                        if (inputId) {
+                            for (var key in placeholders) {
+                                if (inputId.endsWith(key)) {
+                                    input.placeholder = placeholders[key];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+                // ]]>
+            </script>
         </ui:define>
     </ui:composition>
 
