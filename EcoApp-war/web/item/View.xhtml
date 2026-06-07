@@ -26,7 +26,7 @@
                     <h:outputText value="#{bundle.ViewItemLabel_image}"/>
                     <h:graphicImage value="#{itemController.selected.imageUrl}" width="300" style="max-width: 100%; border-radius: 6px;" rendered="#{not empty itemController.selected.imageUrl}" />
                     <h:outputText value="#{bundle.ViewItemLabel_seller}"/>
-                    <h:outputText value="#{itemController.selected.sellerId.username}" title="#{bundle.ViewItemTitle_seller}"/>
+                    <h:outputText value="#{itemController.selected.sellerId.username} #{itemController.selected.sellerId.phone}" title="#{bundle.ViewItemTitle_seller}"/>
                     <h:outputText value="#{bundle.ViewItemLabel_category}"/>
                     <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_category}"/>
                 </h:panelGrid>

@@ -27,7 +27,7 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header"><h:outputText value="Buyer"/></f:facet>
-                            <h:outputText value="#{itemController.getBuyerForItem(pending)}"/>
+                            <h:outputText value="#{itemController.getBuyerForItem(pending)} #{itemController.getBuyerPhoneForItem(pending)}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header"><h:outputText value="Price"/></f:facet>

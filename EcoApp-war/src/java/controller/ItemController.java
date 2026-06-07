@@ -268,6 +268,17 @@ public class ItemController implements Serializable {
         return "Unknown";
     }
 
+    public String getBuyerPhoneForItem(Item item) {
+        if (item == null) return "N/A";
+        List<CartItem> results = cartItemFacade.findByItemId(item.getId());
+        for (CartItem ci : results) {
+            if (ci.isPurchased() && ci.getAppUser() != null && ci.getAppUser().getPhone() != null) {
+                return ci.getAppUser().getPhone();
+            }
+        }
+        return "N/A";
+    }
+
     public void approveItem(Item item) {
         item.setStatus("SOLD");
         getFacade().edit(item);
