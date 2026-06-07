@@ -16,27 +16,26 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{appUserController.selected.id}" title="#{bundle.CreateAppUserTitle_id}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_id}"/>
+                    <h:inputText id="id" value="#{appUserController.selected.id}" title="#{bundle.CreateAppUserTitle_id}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_id}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_username}" for="username" />
-                    <h:inputText id="username" value="#{appUserController.selected.username}" title="#{bundle.CreateAppUserTitle_username}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_username}"/>
+                    <h:inputText id="username" value="#{appUserController.selected.username}" title="#{bundle.CreateAppUserTitle_username}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_username}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_email}" for="email" />
-                    <h:inputText id="email" value="#{appUserController.selected.email}" title="#{bundle.CreateAppUserTitle_email}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_email}"/>
+                    <h:inputText id="email" value="#{appUserController.selected.email}" title="#{bundle.CreateAppUserTitle_email}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_email}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_password}" for="password" />
-                    <h:inputText id="password" value="#{appUserController.selected.password}" title="#{bundle.CreateAppUserTitle_password}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_password}"/>
+                    <h:inputText id="password" value="#{appUserController.selected.password}" title="#{bundle.CreateAppUserTitle_password}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_password}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_phone}" for="phone" />
-                    <h:inputText id="phone" value="#{appUserController.selected.phone}" title="#{bundle.CreateAppUserTitle_phone}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_phone}"/>
+                    <h:inputText id="phone" value="#{appUserController.selected.phone}" title="#{bundle.CreateAppUserTitle_phone}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_phone}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateAppUserLabel_roleId}" for="roleId" />
-                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.CreateAppUserTitle_roleId}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_roleId}">
+                    <h:selectOneMenu id="roleId" value="#{appUserController.selected.roleId}" title="#{bundle.CreateAppUserTitle_roleId}" required="true" requiredMessage="#{bundle.CreateAppUserRequiredMessage_roleId}" style="width: 100%;">
                         <f:selectItems value="#{roleController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{appUserController.create}" value="#{bundle.CreateAppUserSaveLink}" />
-                <br />
-                <br />
-                <h:commandLink action="#{appUserController.prepareList}" value="#{bundle.CreateAppUserShowAllLink}" immediate="true"/>
+                <h:commandButton action="#{appUserController.create}" value="#{bundle.CreateAppUserSaveLink}" styleClass="btn" />
+        
+    
                 
             </h:form>
         </ui:define>

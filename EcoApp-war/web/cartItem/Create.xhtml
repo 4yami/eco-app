@@ -16,17 +16,17 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.CreateCartItemLabel_dateAdded}" for="dateAdded" />
-                    <h:inputText id="dateAdded" value="#{cartItemController.selected.dateAdded}" title="#{bundle.CreateCartItemTitle_dateAdded}" >
+                    <h:inputText id="dateAdded" value="#{cartItemController.selected.dateAdded}" title="#{bundle.CreateCartItemTitle_dateAdded}" style="width: 100%;">
                         <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.CreateCartItemLabel_appUser}" for="appUser" />
-                    <h:selectOneMenu id="appUser" value="#{cartItemController.selected.appUser}" title="#{bundle.CreateCartItemTitle_appUser}" required="true" requiredMessage="#{bundle.CreateCartItemRequiredMessage_appUser}">
+                    <h:selectOneMenu id="appUser" value="#{cartItemController.selected.appUser}" title="#{bundle.CreateCartItemTitle_appUser}" required="true" requiredMessage="#{bundle.CreateCartItemRequiredMessage_appUser}" style="width: 100%;">
                         <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="#{bundle.CreateCartItemLabel_item}" for="item" />
-                    <h:selectOneMenu id="item" value="#{cartItemController.selected.item}" title="#{bundle.CreateCartItemTitle_item}" required="true" requiredMessage="#{bundle.CreateCartItemRequiredMessage_item}">
+                    <h:selectOneMenu id="item" value="#{cartItemController.selected.item}" title="#{bundle.CreateCartItemTitle_item}" required="true" requiredMessage="#{bundle.CreateCartItemRequiredMessage_item}" style="width: 100%;">
                         <f:selectItems value="#{itemController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>

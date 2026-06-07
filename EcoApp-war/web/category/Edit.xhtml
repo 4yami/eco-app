@@ -17,18 +17,15 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.EditCategoryLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{categoryController.selected.id}" title="#{bundle.EditCategoryTitle_id}" required="true" requiredMessage="#{bundle.EditCategoryRequiredMessage_id}"/>
+                    <h:inputText id="id" value="#{categoryController.selected.id}" title="#{bundle.EditCategoryTitle_id}" required="true" requiredMessage="#{bundle.EditCategoryRequiredMessage_id}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.EditCategoryLabel_name}" for="name" />
-                    <h:inputText id="name" value="#{categoryController.selected.name}" title="#{bundle.EditCategoryTitle_name}" required="true" requiredMessage="#{bundle.EditCategoryRequiredMessage_name}"/>
+                    <h:inputText id="name" value="#{categoryController.selected.name}" title="#{bundle.EditCategoryTitle_name}" required="true" requiredMessage="#{bundle.EditCategoryRequiredMessage_name}" style="width: 100%;"/>
                 </h:panelGrid>
-                <h:commandLink action="#{categoryController.update}" value="#{bundle.EditCategorySaveLink}"/>
+                <h:commandButton action="#{categoryController.update}" value="#{bundle.EditCategorySaveLink}" styleClass="btn" />
                 <br />
-                <br />
-                <h:link outcome="View" value="#{bundle.EditCategoryViewLink}"/>
-                <br />
-                <h:commandLink action="#{categoryController.prepareList}" value="#{bundle.EditCategoryShowAllLink}" immediate="true"/>
+      
                 
             </h:form>
         </ui:define>

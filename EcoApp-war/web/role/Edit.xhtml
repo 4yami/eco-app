@@ -17,11 +17,11 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.EditRoleLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{roleController.selected.id}" title="#{bundle.EditRoleTitle_id}" required="true" requiredMessage="#{bundle.EditRoleRequiredMessage_id}"/>
+                    <h:inputText id="id" value="#{roleController.selected.id}" title="#{bundle.EditRoleTitle_id}" required="true" requiredMessage="#{bundle.EditRoleRequiredMessage_id}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.EditRoleLabel_roleName}" for="roleName" />
-                    <h:inputText id="roleName" value="#{roleController.selected.roleName}" title="#{bundle.EditRoleTitle_roleName}" required="true" requiredMessage="#{bundle.EditRoleRequiredMessage_roleName}"/>
+                    <h:inputText id="roleName" value="#{roleController.selected.roleName}" title="#{bundle.EditRoleTitle_roleName}" required="true" requiredMessage="#{bundle.EditRoleRequiredMessage_roleName}" style="width: 100%;"/>
                 </h:panelGrid>
                 <h:commandLink action="#{roleController.update}" value="#{bundle.EditRoleSaveLink}"/>
                 <br />

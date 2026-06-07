@@ -48,7 +48,6 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{categoryController.prepareView}" value="#{bundle.ListCategoryViewLink}"/>
                             <h:outputText value=" "/>
                             <h:commandLink action="#{categoryController.prepareEdit}" value="#{bundle.ListCategoryEditLink}" rendered="#{loginBean.loggedIn}"/>
                             <h:outputText value=" " rendered="#{loginBean.loggedIn}"/>

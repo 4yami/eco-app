@@ -89,7 +89,7 @@
                             <h:outputText value=" "/>
                             <h:commandLink action="#{itemController.prepareEdit}" value="#{bundle.ListItemEditLink}"/>
                             <h:outputText value=" "/>
-                            <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}"/>
+                            <h:commandLink action="#{itemController.destroy}" value="#{bundle.ListItemDestroyLink}" onclick="return confirm('Are you sure you want to delete this item?');" />
                         </h:column>
                     </h:dataTable>
                 <br />

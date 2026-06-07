@@ -26,14 +26,16 @@
                     <h:outputText value="#{bundle.ViewItemLabel_image}"/>
                     <h:graphicImage value="#{itemController.selected.imageUrl}" width="300" style="max-width: 100%; border-radius: 6px;" rendered="#{not empty itemController.selected.imageUrl}" />
                     <h:outputText value="#{bundle.ViewItemLabel_seller}"/>
-                    <h:outputText value="#{itemController.selected.sellerId.username}"/>
-                    <div><h:outputText value="#{itemController.selected.sellerId.phone}" title="#{bundle.ViewItemTitle_seller}"/></div>
+                    <h:panelGroup>
+                        <h:outputText value="#{itemController.selected.sellerId.username}"/>
+                        <div><h:outputText value="#{itemController.selected.sellerId.phone}" title="#{bundle.ViewItemTitle_seller}"/></div>
+                    </h:panelGroup>
                     <h:outputText value="#{bundle.ViewItemLabel_category}"/>
                     <h:outputText value="#{itemController.selected.categoryId.name}" title="#{bundle.ViewItemTitle_category}"/>
                 </h:panelGrid>
                 <br />
                 <h:commandButton value="Add to Cart" action="#{cartItemController.addToCart(itemController.selected)}"
-                    rendered="#{loginBean.loggedIn and !loginBean.admin and itemController.selected.status == 'AVAILABLE'}"
+                    rendered="#{loginBean.loggedIn and !loginBean.admin and itemController.selected.status == 'AVAILABLE' and itemController.selected.sellerId.id != loginBean.loggedInUser.id}"
                     styleClass="btn" />
                 
                 <br /><br />
@@ -44,9 +46,7 @@
                 <h:link outcome="Edit" value="#{bundle.ViewItemEditLink}"
                     rendered="#{loginBean.admin or (loginBean.loggedIn and itemController.selected.sellerId.id == loginBean.loggedInUser.id)}" />
                 <br />
-                <h:commandLink action="#{itemController.prepareCreate}" value="#{bundle.ViewItemCreateLink}" rendered="#{loginBean.loggedIn}" />
-                <br />
-                <h:commandLink action="#{itemController.prepareList}" value="#{bundle.ViewItemShowAllLink}"/>
+            
                 
 
             </h:form>

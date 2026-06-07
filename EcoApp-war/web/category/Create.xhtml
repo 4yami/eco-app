@@ -16,17 +16,16 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.CreateCategoryLabel_id}" for="id" />
-                    <h:inputText id="id" value="#{categoryController.selected.id}" title="#{bundle.CreateCategoryTitle_id}" required="true" requiredMessage="#{bundle.CreateCategoryRequiredMessage_id}"/>
+                    <h:inputText id="id" value="#{categoryController.selected.id}" title="#{bundle.CreateCategoryTitle_id}" required="true" requiredMessage="#{bundle.CreateCategoryRequiredMessage_id}" style="width: 100%;"/>
                     <h:outputLabel value="#{bundle.CreateCategoryLabel_name}" for="name" />
-                    <h:inputText id="name" value="#{categoryController.selected.name}" title="#{bundle.CreateCategoryTitle_name}" required="true" requiredMessage="#{bundle.CreateCategoryRequiredMessage_name}"/>
+                    <h:inputText id="name" value="#{categoryController.selected.name}" title="#{bundle.CreateCategoryTitle_name}" required="true" requiredMessage="#{bundle.CreateCategoryRequiredMessage_name}" style="width: 100%;"/>
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{categoryController.create}" value="#{bundle.CreateCategorySaveLink}" />
+                <h:commandButton action="#{categoryController.create}" value="#{bundle.CreateCategorySaveLink}" styleClass="btn" />
                 <br />
                 <br />
-                <h:commandLink action="#{categoryController.prepareList}" value="#{bundle.CreateCategoryShowAllLink}" immediate="true"/>
                 
             </h:form>
         </ui:define>

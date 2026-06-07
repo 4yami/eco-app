@@ -17,36 +17,66 @@
                 <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form>
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="#{bundle.EditItemLabel_id}" for="id" />
-                    <h:outputText id="id" value="#{itemController.selected.id}" />
+                <h:panelGrid columns="2" styleClass="panel-grid-form" columnClasses="labelCol,inputCol">
                     <h:outputLabel value="#{bundle.EditItemLabel_title}" for="title" />
-                    <h:inputText id="title" value="#{itemController.selected.title}" title="#{bundle.EditItemTitle_title}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_title}"/>
+                    <h:inputText id="title" value="#{itemController.selected.title}" 
+                                 title="#{bundle.EditItemTitle_title}" 
+                                 required="true" requiredMessage="#{bundle.EditItemRequiredMessage_title}"
+                                 style="width: 100%;" />
+
                     <h:outputLabel value="#{bundle.EditItemLabel_description}" for="description" />
-                    <h:inputText id="description" value="#{itemController.selected.description}" title="#{bundle.EditItemTitle_description}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_description}"/>
+                    <h:inputTextarea id="description" value="#{itemController.selected.description}" 
+                                     title="#{bundle.EditItemTitle_description}" 
+                                     required="true" requiredMessage="#{bundle.EditItemRequiredMessage_description}"
+                                     rows="4" style="width: 100%;" />
+
                     <h:outputLabel value="#{bundle.EditItemLabel_price}" for="price" />
-                    <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.EditItemTitle_price}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}">
+                    <h:inputText id="price" value="#{itemController.selected.price}" 
+                                 title="#{bundle.EditItemTitle_price}" 
+                                 required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}"
+                                 style="width: 100%;">
                         <f:convertNumber maxFractionDigits="2" />
                     </h:inputText>
+
                     <h:outputLabel value="#{bundle.EditItemLabel_status}" for="status" />
-                    <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.EditItemTitle_status}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_status}"/>
+                    <h:selectOneMenu id="status" value="#{itemController.selected.status}" 
+                                     required="true" 
+                                     style="width: 100%;">
+                        <f:selectItem itemLabel="AVAILABLE" itemValue="AVAILABLE" />
+                        <f:selectItem itemLabel="SOLD" itemValue="SOLD" />
+                        <f:selectItem itemLabel="RESERVED" itemValue="RESERVED" />
+                    </h:selectOneMenu>
+
                     <h:outputLabel value="#{bundle.EditItemLabel_image}" for="imageUrl" />
-                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" title="#{bundle.EditItemTitle_image}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_image}"/>
+                    <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" 
+                                 title="#{bundle.EditItemTitle_image}"
+                                 required="true" requiredMessage="#{bundle.EditItemRequiredMessage_image}"
+                                 style="width: 100%;" />
+
                     <h:outputLabel value="#{bundle.EditItemLabel_seller}" for="sellerId" rendered="#{loginBean.admin}" />
-                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" title="#{bundle.EditItemTitle_seller}" rendered="#{loginBean.admin}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_seller}">
+                    <h:selectOneMenu id="sellerId" value="#{itemController.selected.sellerId}" 
+                                     title="#{bundle.EditItemTitle_seller}" rendered="#{loginBean.admin}"
+                                     required="true" requiredMessage="#{bundle.EditItemRequiredMessage_seller}"
+                                     style="width: 100%;">
+                        <f:selectItem itemLabel="Select a seller..." itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{appUserController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
+
                     <h:outputLabel value="#{bundle.EditItemLabel_category}" for="categoryId" />
-                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" title="#{bundle.EditItemTitle_category}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_category}">
+                    <h:selectOneMenu id="categoryId" value="#{itemController.selected.categoryId}" 
+                                     title="#{bundle.EditItemTitle_category}" 
+                                     required="true" requiredMessage="#{bundle.EditItemRequiredMessage_category}"
+                                     style="width: 100%;">
+                        <f:selectItem itemLabel="Select a category..." itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
-                <h:commandLink action="#{itemController.update}" value="#{bundle.EditItemSaveLink}"/>
+                <h:commandButton action="#{itemController.update}" value="#{bundle.EditItemSaveLink}" styleClass="btn"/>
                 <br />
                 <br />
                 <h:link outcome="View" value="#{bundle.EditItemViewLink}"/>
                 <br />
-                <h:commandLink action="#{itemController.prepareList}" value="#{bundle.EditItemShowAllLink}" immediate="true"/>
+
                 
             </h:form>
         </ui:define>
