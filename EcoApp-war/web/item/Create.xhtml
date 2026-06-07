@@ -35,7 +35,9 @@
                         <h:inputText id="price" value="#{itemController.selected.price}" 
                                      title="#{bundle.CreateItemTitle_price}" 
                                      required="true" requiredMessage="#{bundle.CreateItemRequiredMessage_price}"
-                                     style="width: 100%;" />
+                                     style="width: 100%;">
+                            <f:convertNumber maxFractionDigits="2" />
+                        </h:inputText>
 
                         <h:outputLabel value="#{bundle.CreateItemLabel_image}" for="imageUrl" />
                         <h:inputText id="imageUrl" value="#{itemController.selected.imageUrl}" 

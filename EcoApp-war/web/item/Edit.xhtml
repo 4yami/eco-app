@@ -25,7 +25,9 @@
                     <h:outputLabel value="#{bundle.EditItemLabel_description}" for="description" />
                     <h:inputText id="description" value="#{itemController.selected.description}" title="#{bundle.EditItemTitle_description}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_description}"/>
                     <h:outputLabel value="#{bundle.EditItemLabel_price}" for="price" />
-                    <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.EditItemTitle_price}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}"/>
+                    <h:inputText id="price" value="#{itemController.selected.price}" title="#{bundle.EditItemTitle_price}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_price}">
+                        <f:convertNumber maxFractionDigits="2" />
+                    </h:inputText>
                     <h:outputLabel value="#{bundle.EditItemLabel_status}" for="status" />
                     <h:inputText id="status" value="#{itemController.selected.status}" title="#{bundle.EditItemTitle_status}" required="true" requiredMessage="#{bundle.EditItemRequiredMessage_status}"/>
                     <h:outputLabel value="#{bundle.EditItemLabel_image}" for="imageUrl" />
