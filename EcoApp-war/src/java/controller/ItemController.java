@@ -1,11 +1,14 @@
 package controller;
 
+import entity.CartItem;
 import entity.Item;
 import controller.util.JsfUtil;
 import controller.util.PaginationHelper;
+import session.CartItemFacade;
 import session.ItemFacade;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -28,6 +31,8 @@ public class ItemController implements Serializable {
     private DataModel items = null;
     @EJB
     private session.ItemFacade ejbFacade;
+    @EJB
+    private CartItemFacade cartItemFacade;
     private PaginationHelper pagination;
     private int selectedItemIndex;
 
@@ -234,6 +239,54 @@ public class ItemController implements Serializable {
         myItemsMode = false;
         recreateModel();
         recreatePagination();
+    }
+
+    // ----- Seller Acceptance Flow -----
+
+    public List<Item> getPendingApprovals() {
+        if (loginBean == null || !loginBean.isLoggedIn()) {
+            return Collections.emptyList();
+        }
+        return getFacade().findPendingBySellerId(loginBean.getLoggedInUser().getId(), 0, 50);
+    }
+
+    public int getPendingApprovalsCount() {
+        if (loginBean == null || !loginBean.isLoggedIn()) {
+            return 0;
+        }
+        return getFacade().countPendingBySellerId(loginBean.getLoggedInUser().getId());
+    }
+
+    public String getBuyerForItem(Item item) {
+        if (item == null) return "Unknown";
+        List<CartItem> results = cartItemFacade.findByItemId(item.getId());
+        for (CartItem ci : results) {
+            if (ci.isPurchased() && ci.getAppUser() != null) {
+                return ci.getAppUser().getUsername();
+            }
+        }
+        return "Unknown";
+    }
+
+    public void approveItem(Item item) {
+        item.setStatus("SOLD");
+        getFacade().edit(item);
+        recreatePagination();
+        JsfUtil.addSuccessMessage("Item approved! Sale completed.");
+    }
+
+    public void rejectItem(Item item) {
+        List<CartItem> results = cartItemFacade.findByItemId(item.getId());
+        for (CartItem ci : results) {
+            if (ci.isPurchased() && !ci.isRejected()) {
+                ci.setRejected(true);
+                cartItemFacade.edit(ci);
+            }
+        }
+        item.setStatus("AVAILABLE");
+        getFacade().edit(item);
+        recreatePagination();
+        JsfUtil.addSuccessMessage("Item rejected. Buyer notified.");
     }
 
     public void enterMyItemsMode() {

@@ -24,7 +24,7 @@ public class ItemFacade extends AbstractFacade<Item> {
 
     public List<Item> findBySellerId(Integer sellerId, int start, int max) {
         TypedQuery<Item> query = em.createQuery(
-            "SELECT i FROM Item i WHERE i.sellerId.id = :sellerId ORDER BY i.id DESC", Item.class);
+            "SELECT i FROM Item i WHERE i.sellerId.id = :sellerId AND i.status <> 'PENDING' ORDER BY i.id DESC", Item.class);
         query.setParameter("sellerId", sellerId);
         query.setFirstResult(start);
         query.setMaxResults(max);
@@ -52,9 +52,25 @@ public class ItemFacade extends AbstractFacade<Item> {
         return query.getResultList();
     }
 
+    public List<Item> findPendingBySellerId(Integer sellerId, int start, int max) {
+        TypedQuery<Item> query = em.createQuery(
+            "SELECT i FROM Item i WHERE i.status = 'PENDING' AND i.sellerId.id = :sellerId ORDER BY i.id DESC", Item.class);
+        query.setParameter("sellerId", sellerId);
+        query.setFirstResult(start);
+        query.setMaxResults(max);
+        return query.getResultList();
+    }
+
+    public int countPendingBySellerId(Integer sellerId) {
+        javax.persistence.Query query = em.createQuery(
+            "SELECT COUNT(i) FROM Item i WHERE i.status = 'PENDING' AND i.sellerId.id = :sellerId");
+        query.setParameter("sellerId", sellerId);
+        return ((Long) query.getSingleResult()).intValue();
+    }
+
     public int countBySellerId(Integer sellerId) {
         javax.persistence.Query query = em.createQuery(
-            "SELECT COUNT(i) FROM Item i WHERE i.sellerId.id = :sellerId");
+            "SELECT COUNT(i) FROM Item i WHERE i.sellerId.id = :sellerId AND i.status <> 'PENDING'");
         query.setParameter("sellerId", sellerId);
         return ((Long) query.getSingleResult()).intValue();
     }

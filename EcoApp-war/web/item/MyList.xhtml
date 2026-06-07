@@ -18,6 +18,30 @@
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
+                <h:panelGroup rendered="#{not empty itemController.pendingApprovals}">
+                    <h2>Pending Approvals</h2>
+                    <h:dataTable value="#{itemController.pendingApprovals}" var="pending" styleClass="browse-table" rowClasses="jsfcrud_odd_row,jsfcrud_even_row">
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Item"/></f:facet>
+                            <h:outputText value="#{pending.title}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Buyer"/></f:facet>
+                            <h:outputText value="#{itemController.getBuyerForItem(pending)}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Price"/></f:facet>
+                            <h:outputText value="$#{pending.price}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"><h:outputText value="Actions"/></f:facet>
+                            <h:commandButton value="Approve" action="#{itemController.approveItem(pending)}" styleClass="btn" />
+                            <h:outputText value=" " />
+                            <h:commandButton value="Reject" action="#{itemController.rejectItem(pending)}" styleClass="btn btn-outline" />
+                        </h:column>
+                    </h:dataTable>
+                    <hr style="margin: 20px 0; border: none; border-top: 2px solid #d4e4d4;" />
+                </h:panelGroup>
                 <div class="list-toolbar">
                     <span class="list-toolbar-left">
                         <h:outputText escape="false" value="You haven't listed any items yet." rendered="#{itemController.items.rowCount == 0}"/>

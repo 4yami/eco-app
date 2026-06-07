@@ -40,6 +40,8 @@ public class CartItem implements Serializable {
     private Date dateAdded;
     @Column(name = "PURCHASED")
     private boolean purchased;
+    @Column(name = "REJECTED")
+    private boolean rejected;
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private AppUser appUser;
@@ -80,6 +82,14 @@ public class CartItem implements Serializable {
 
     public void setPurchased(boolean purchased) {
         this.purchased = purchased;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 
     public AppUser getAppUser() {

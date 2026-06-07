@@ -203,12 +203,13 @@ public class CartItemController implements Serializable {
 
         try {
             cartItem.setPurchased(true);
+            cartItem.setRejected(false);
             ejbFacade.edit(cartItem);
             Item item = cartItem.getItem();
-            item.setStatus("SOLD");
+            item.setStatus("PENDING");
             itemFacade.edit(item);
 
-            JsfUtil.addSuccessMessage("Purchased \"" + item.getTitle() + "\" successfully!");
+            JsfUtil.addSuccessMessage("Purchase submitted! Awaiting seller approval.");
             recreateCartItemList();
             recreateHistory();
         } catch (Exception e) {
@@ -234,9 +235,10 @@ public class CartItemController implements Serializable {
         for (CartItem ci : cart) {
             try {
                 ci.setPurchased(true);
+                ci.setRejected(false);
                 ejbFacade.edit(ci);
                 Item item = ci.getItem();
-                item.setStatus("SOLD");
+                item.setStatus("PENDING");
                 itemFacade.edit(item);
                 success++;
             } catch (Exception e) {
@@ -248,9 +250,9 @@ public class CartItemController implements Serializable {
         recreateHistory();
 
         if (skipped == 0) {
-            JsfUtil.addSuccessMessage(success + " item(s) purchased successfully!");
+            JsfUtil.addSuccessMessage(success + " item(s) submitted for seller approval!");
         } else {
-            JsfUtil.addSuccessMessage(success + " item(s) purchased. " + skipped + " item(s) skipped due to errors.");
+            JsfUtil.addSuccessMessage(success + " item(s) submitted. " + skipped + " item(s) skipped due to errors.");
         }
         return null;
     }

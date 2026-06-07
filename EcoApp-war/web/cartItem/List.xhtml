@@ -99,6 +99,14 @@
                             </f:facet>
                             <h:outputText value="$#{item.item.price}"/>
                         </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Status"/>
+                            </f:facet>
+                            <h:outputText value="Awaiting Approval" style="color: #b8860b;" rendered="#{item.item.status == 'PENDING' and !item.rejected}"/>
+                            <h:outputText value="Completed" style="color: green;" rendered="#{item.item.status == 'SOLD'}"/>
+                            <h:outputText value="Rejected" style="color: #c0392b;" rendered="#{item.rejected}"/>
+                        </h:column>
                     </h:dataTable>
                 </h:panelGroup>
             </h:form>

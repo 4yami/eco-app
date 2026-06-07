@@ -47,6 +47,12 @@ public class CartItemFacade extends AbstractFacade<CartItem> {
         return query.getResultList();
     }
 
+    public List<CartItem> findByItemId(Integer itemId) {
+        TypedQuery<CartItem> query = em.createNamedQuery("CartItem.findByItemId", CartItem.class);
+        query.setParameter("itemId", itemId);
+        return query.getResultList();
+    }
+
     public int countByUserIdAndPurchased(Integer userId, boolean purchased) {
         javax.persistence.Query query = em.createQuery(
             "SELECT COUNT(c) FROM CartItem c WHERE c.cartItemPK.userId = :userId AND c.purchased = :purchased");
